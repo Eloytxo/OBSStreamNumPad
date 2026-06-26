@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -18,7 +18,7 @@ function createWindow() {
 
         webPreferences: {
 
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload.cjs'),
 
             contextIsolation: true,
 
@@ -43,6 +43,14 @@ function createWindow() {
     }
 
 }
+
+ipcMain.handle('system:test', async () => {
+
+    console.log('Petición recibida desde Vue');
+
+    return '¡Electron responde correctamente!';
+
+});
 
 app.whenReady().then(createWindow);
 
