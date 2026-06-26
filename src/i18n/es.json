@@ -1,0 +1,12 @@
+{
+  "connection": {
+    "title": "Conexión con OBS",
+    "host": "Host",
+    "port": "Puerto",
+    "password": "Contraseña",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "connected": "Conectado",
+    "disconnected": "Desconectado"
+  }
+}

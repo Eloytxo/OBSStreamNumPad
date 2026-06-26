@@ -1,0 +1,12 @@
+{
+  "connection": {
+    "title": "OBS Connection",
+    "host": "Host",
+    "port": "Port",
+    "password": "Password",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "connected": "Connected",
+    "disconnected": "Disconnected"
+  }
+}
