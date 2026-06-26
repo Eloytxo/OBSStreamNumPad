@@ -1,7 +1,15 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+
 </script>
 
 <template>
-  <HelloWorld />
+
+  <div>
+
+      <h1>OBSStreamNumPad</h1>
+
+      <p>Version 0.1</p>
+
+  </div>
+
 </template>
