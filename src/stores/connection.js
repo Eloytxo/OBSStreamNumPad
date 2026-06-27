@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { CONNECTION_STATUS } from '../constants/connectionStatus';
 
 export const useConnectionStore = defineStore('connection', () => {
 
@@ -7,15 +8,20 @@ export const useConnectionStore = defineStore('connection', () => {
     const port = ref(4455);
     const password = ref('');
 
-    const connected = ref(false);
+    
     const connecting = ref(false);
+
+    const status = ref(CONNECTION_STATUS.IDLE);
+    const error = ref('');
 
     return {
         host,
         port,
         password,
-        connected,
-        connecting
+
+        connecting,
+        status,
+        error
     };
 
 });

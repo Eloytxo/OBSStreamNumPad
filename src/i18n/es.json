@@ -1,12 +1,14 @@
 {
+  "app": {
+    "title": "OBSStreamNumPad",
+    "subtitle": "Conectar a OBS Studio"
+  },
   "connection": {
-    "title": "Conexión con OBS",
     "host": "Host",
     "port": "Puerto",
     "password": "Contraseña",
     "connect": "Conectar",
-    "disconnect": "Desconectar",
-    "connected": "Conectado",
-    "disconnected": "Desconectado"
+    "status_disconnected": "Desconectado",
+    "status_connected": "Conectado"
   }
 }
