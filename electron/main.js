@@ -1,6 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import './ipc/system.js';
+import './ipc/obs.js';
+import './ipc/settings.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,13 +47,13 @@ function createWindow() {
 
 }
 
-ipcMain.handle('system:test', async () => {
+// ipcMain.handle('system:test', async () => {
 
-    console.log('Petición recibida desde Vue');
+//     console.log('Petición recibida desde Vue');
 
-    return '¡Electron responde correctamente!';
+//     return '¡Electron responde correctamente!';
 
-});
+// });
 
 app.whenReady().then(createWindow);
 
