@@ -10,3 +10,15 @@ ipcMain.handle('obs:connect', async (_event, connectionData) => {
     );
 
 });
+
+ipcMain.handle('obs:getScenes', async () => {
+
+    return await OBSService.getSceneList();
+
+});
+
+ipcMain.handle('obs:getInputs', async () => {
+
+    return await OBSService.getInputList();
+
+});

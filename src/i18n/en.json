@@ -8,7 +8,35 @@
     "port": "Port",
     "password": "Password",
     "connect": "Connect",
+    "connecting": "Connecting...",
+    "status_idle": "Not connected",
     "status_disconnected": "Disconnected",
-    "status_connected": "Connected"
+    "status_connected": "Connected",
+    "status_connecting": "Connecting...",
+    "error_connection": "Connection error"
+  },
+  "header": {
+    "disconnected": "Disconnected",
+    "connected": "Connected"
+  },
+  "main": {
+    "title": "Mappings configuration",
+    "capture_key": "Capture key",
+    "press_key": "Press a numpad key...",
+    "listening": "Listening...",
+    "action_type": "Action type",
+    "type_media": "Media",
+    "type_scene": "Scene",
+    "target": "Target",
+    "select_target": "Select a target",
+    "add_mapping": "Add mapping",
+    "mappings_list": "Configured mappings",
+    "no_mappings": "No mappings configured",
+    "key": "Key",
+    "type": "Type",
+    "target_col": "Target",
+    "actions": "Actions",
+    "delete": "Delete",
+    "back": "Back"
   }
 }

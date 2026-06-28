@@ -1,8 +1,13 @@
 <script setup>
-
+import AppHeader from './components/AppHeader.vue';
 </script>
 
 
 <template>
-  <router-view />
+    <div class="app-layout">
+        <AppHeader />
+        <main class="app-content">
+            <router-view />
+        </main>
+    </div>
 </template>

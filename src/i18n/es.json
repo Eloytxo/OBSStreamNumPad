@@ -8,7 +8,35 @@
     "port": "Puerto",
     "password": "Contraseña",
     "connect": "Conectar",
+    "connecting": "Conectando...",
+    "status_idle": "Sin conexión",
     "status_disconnected": "Desconectado",
-    "status_connected": "Conectado"
+    "status_connected": "Conectado",
+    "status_connecting": "Conectando...",
+    "error_connection": "Error de conexión"
+  },
+  "header": {
+    "disconnected": "Desconectado",
+    "connected": "Conectado"
+  },
+  "main": {
+    "title": "Configuración de mappings",
+    "capture_key": "Capturar tecla",
+    "press_key": "Pulsa una tecla del numpad...",
+    "listening": "Escuchando...",
+    "action_type": "Tipo de acción",
+    "type_media": "Media",
+    "type_scene": "Escena",
+    "target": "Target",
+    "select_target": "Selecciona un target",
+    "add_mapping": "Agregar mapping",
+    "mappings_list": "Mappings configurados",
+    "no_mappings": "No hay mappings configurados",
+    "key": "Tecla",
+    "type": "Tipo",
+    "target_col": "Target",
+    "actions": "Acciones",
+    "delete": "Eliminar",
+    "back": "Volver"
   }
 }

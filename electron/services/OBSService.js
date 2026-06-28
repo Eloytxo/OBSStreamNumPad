@@ -63,6 +63,50 @@ class OBSService {
 
     }
 
+    async getSceneList() {
+
+        try {
+
+            const result = await this.obs.call('GetSceneList');
+
+            return {
+                success: true,
+                scenes: result.scenes
+            };
+
+        } catch (error) {
+
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    async getInputList() {
+
+        try {
+
+            const result = await this.obs.call('GetInputList');
+
+            return {
+                success: true,
+                inputs: result.inputs
+            };
+
+        } catch (error) {
+
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
 }
 
 export default new OBSService();
