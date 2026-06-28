@@ -17,7 +17,9 @@
   },
   "header": {
     "disconnected": "Desconectado",
-    "connected": "Conectado"
+    "connected": "Conectado",
+    "summary": "Resumen",
+    "assign_keys": "Asignar teclas"
   },
   "main": {
     "title": "Configuración de mappings",
@@ -38,5 +40,10 @@
     "actions": "Acciones",
     "delete": "Eliminar",
     "back": "Volver"
+  },
+  "summary": {
+    "title": "Resumen de asignaciones",
+    "key_label": "Tecla",
+    "no_mapping": "Sin asignar"
   }
 }

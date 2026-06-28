@@ -58,7 +58,7 @@ async function deleteMapping(index) {
 }
 
 function goBack() {
-    router.push("/");
+    router.push("/summary");
 }
 
 onMounted(async () => {

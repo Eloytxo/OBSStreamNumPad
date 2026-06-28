@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import ConnectionView from '../views/ConnectionView.vue';
+import SummaryView from '../views/SummaryView.vue';
 import SettingsView from '../views/SettingsView.vue';
 import MainView from '../views/MainView.vue';
 import { useConnectionStore } from '../stores/connection';
@@ -13,6 +14,19 @@ const router = createRouter({
       path: '/',
       name: 'connection',
       component: ConnectionView,
+    },
+    {
+      path: '/summary',
+      name: 'summary',
+      component: SummaryView,
+      beforeEnter: (to, from, next) => {
+        const connectionStore = useConnectionStore();
+        if (connectionStore.status === CONNECTION_STATUS.CONNECTED) {
+          next();
+        } else {
+          next('/');
+        }
+      }
     },
     {
       path: '/settings',

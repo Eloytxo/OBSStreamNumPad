@@ -17,7 +17,9 @@
   },
   "header": {
     "disconnected": "Disconnected",
-    "connected": "Connected"
+    "connected": "Connected",
+    "summary": "Summary",
+    "assign_keys": "Assign keys"
   },
   "main": {
     "title": "Mappings configuration",
@@ -38,5 +40,10 @@
     "actions": "Actions",
     "delete": "Delete",
     "back": "Back"
+  },
+  "summary": {
+    "title": "Assignments summary",
+    "key_label": "Key",
+    "no_mapping": "Not assigned"
   }
 }

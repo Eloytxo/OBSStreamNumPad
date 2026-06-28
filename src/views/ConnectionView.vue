@@ -37,7 +37,7 @@ async function connect() {
             password: connectionStore.password
         });
 
-        router.push("/main");
+        router.push("/summary");
     } else {
         connectionStore.status = CONNECTION_STATUS.DISCONNECTED;
         errorMessage.value = result.message;
