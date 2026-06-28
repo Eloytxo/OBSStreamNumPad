@@ -26,7 +26,7 @@
     "listening": "Listening...",
     "action_type": "Action type",
     "type_media": "Media",
-    "type_scene": "Scene",
+    "type_scene": "Scene change",
     "target": "Target",
     "select_target": "Select a target",
     "add_mapping": "Add mapping",
