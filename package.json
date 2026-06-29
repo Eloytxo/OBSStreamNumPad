@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "electron-store": "^11.0.2",
-    "node-global-key-listener": "^0.3.0",
     "obs-websocket-js": "^5.0.8",
     "pinia": "^3.0.4",
     "vue": "^3.5.38",

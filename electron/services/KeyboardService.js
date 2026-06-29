@@ -1,12 +1,17 @@
-import { GlobalKeyboardListener } from 'node-global-key-listener';
+import { globalShortcut } from 'electron';
+import { normalizeAccelerator } from '../../core/keyboard.js';
+
+const NUMPAD_ACCELERATORS = [
+    'num0', 'num1', 'num2', 'num3', 'num4',
+    'num5', 'num6', 'num7', 'num8', 'num9'
+];
 
 class KeyboardService {
 
     constructor() {
 
-        this.listener = null;
         this.running = false;
-        this._listenerRef = null;
+        this.registered = [];
 
     }
 
@@ -29,22 +34,37 @@ class KeyboardService {
 
         try {
 
-            this.listener = new GlobalKeyboardListener();
+            for (const accelerator of NUMPAD_ACCELERATORS) {
 
-            this._listenerRef = (e, down) => {
+                const registered = globalShortcut.register(accelerator, () => {
 
-                callback({
-                    key: e.name,
-                    state: e.state
+                    const normalizedKey = normalizeAccelerator(accelerator);
+
+                    callback({
+                        key: normalizedKey,
+                        state: 'DOWN'
+                    });
+
                 });
 
-            };
+                if (!registered) {
 
-            this.listener.addListener(this._listenerRef);
+                    this.stop();
+
+                    return {
+                        success: false,
+                        message: `Failed to register hotkey ${accelerator}`
+                    };
+
+                }
+
+                this.registered.push(accelerator);
+
+            }
 
             this.running = true;
 
-            console.log('[KeyboardService] Listener iniciado');
+            console.log('[KeyboardService] Atajos globales registrados');
 
             return {
                 success: true
@@ -53,6 +73,8 @@ class KeyboardService {
         } catch (error) {
 
             console.error('[KeyboardService] Error al iniciar:', error.message);
+
+            this.stop();
 
             return {
                 success: false,
@@ -68,36 +90,26 @@ class KeyboardService {
      */
     stop() {
 
-        if (!this.running) {
+        if (this.registered.length > 0) {
 
-            return;
+            for (const accelerator of this.registered) {
 
-        }
-
-        try {
-
-            if (this.listener && this._listenerRef) {
-
-                this.listener.removeListener(this._listenerRef);
+                globalShortcut.unregister(accelerator);
 
             }
 
-            this.running = false;
-            this.listener = null;
-            this._listenerRef = null;
-
-            console.log('[KeyboardService] Listener detenido');
-
-        } catch (error) {
-
-            console.error('[KeyboardService] Error al detener:', error.message);
+            this.registered = [];
 
         }
+
+        this.running = false;
+
+        console.log('[KeyboardService] Atajos globales liberados');
 
     }
 
     /**
-     * @returns {boolean} true si el listener está activo
+     * @returns {boolean} true si los atajos están registrados
      */
     isRunning() {
 

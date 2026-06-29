@@ -5,7 +5,6 @@ import './ipc/system.js';
 import './ipc/obs.js';
 import './ipc/settings.js';
 import { initKeyboardIPC } from './ipc/keyboard.js';
-import KeyboardService from './services/KeyboardService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -64,9 +63,4 @@ app.on('window-all-closed', () => {
 
 });
 
-// Liberar el hook del teclado al cerrar la aplicación
-app.on('before-quit', () => {
-
-    KeyboardService.stop();
-
-});
+// Los atajos globales se liberan automáticamente al salir de la aplicación

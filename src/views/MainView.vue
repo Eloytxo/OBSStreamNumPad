@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useObsStore } from "../stores/obs";
@@ -14,6 +14,8 @@ const capturedKey = ref("");
 const actionType = ref("scene");
 const selectedTarget = ref("");
 const listening = ref(false);
+const sortKey = ref("key");
+const sortDirection = ref("asc");
 
 function startListening() {
     listening.value = true;
@@ -53,8 +55,76 @@ async function addMapping() {
     selectedTarget.value = "";
 }
 
-async function deleteMapping(index) {
-    const updatedMappings = settingsStore.mappings.filter((_, i) => i !== index);
+function getNumpadDigit(key) {
+    const match = key.match(/Numpad(\d)/);
+    return match ? parseInt(match[1], 10) : null;
+}
+
+const sortedMappings = computed(() => {
+    const list = [...settingsStore.mappings];
+
+    if (!sortKey.value) {
+        return list;
+    }
+
+    list.sort((a, b) => {
+        let comparison = 0;
+
+        if (sortKey.value === "key") {
+            const digitA = getNumpadDigit(a.key);
+            const digitB = getNumpadDigit(b.key);
+
+            if (digitA !== null && digitB !== null) {
+                comparison = digitA - digitB;
+            } else {
+                comparison = a.key.localeCompare(b.key);
+            }
+        } else if (sortKey.value === "type") {
+            comparison = a.actionType.localeCompare(b.actionType);
+        }
+
+        return sortDirection.value === "asc" ? comparison : -comparison;
+    });
+
+    return list;
+});
+
+function toggleSort(column) {
+    if (sortKey.value === column) {
+        if (sortDirection.value === "asc") {
+            sortDirection.value = "desc";
+        } else {
+            sortKey.value = null;
+            sortDirection.value = "asc";
+        }
+    } else {
+        sortKey.value = column;
+        sortDirection.value = "asc";
+    }
+}
+
+function sortIndicator(column) {
+    if (sortKey.value !== column) {
+        return "";
+    }
+
+    return sortDirection.value === "asc" ? "▲" : "▼";
+}
+
+async function deleteMapping(sortedIndex) {
+    const mapping = sortedMappings.value[sortedIndex];
+
+    if (!mapping) {
+        return;
+    }
+
+    const originalIndex = settingsStore.mappings.indexOf(mapping);
+
+    if (originalIndex === -1) {
+        return;
+    }
+
+    const updatedMappings = settingsStore.mappings.filter((_, i) => i !== originalIndex);
     await settingsStore.savePartial({ mappings: updatedMappings });
 }
 
@@ -163,8 +233,12 @@ function getMediaInputs() {
                 <table v-else class="mappings-table">
                     <thead>
                         <tr>
-                            <th>{{ t("main.key") }}</th>
-                            <th>{{ t("main.type") }}</th>
+                            <th class="sortable-header" @click="toggleSort('key')">
+                                {{ t("main.key") }} <span class="sort-indicator">{{ sortIndicator('key') }}</span>
+                            </th>
+                            <th class="sortable-header" @click="toggleSort('type')">
+                                {{ t("main.type") }} <span class="sort-indicator">{{ sortIndicator('type') }}</span>
+                            </th>
                             <th>{{ t("main.target_col") }}</th>
                             <th>{{ t("main.actions") }}</th>
                         </tr>
@@ -172,7 +246,7 @@ function getMediaInputs() {
 
                     <tbody>
                         <tr
-                            v-for="(mapping, index) in settingsStore.mappings"
+                            v-for="(mapping, index) in sortedMappings"
                             :key="index"
                         >
                             <td>{{ mapping.key }}</td>
@@ -197,3 +271,14 @@ function getMediaInputs() {
         </div>
     </div>
 </template>
+
+<style scoped>
+.sortable-header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sort-indicator {
+    margin-left: 0.25rem;
+}
+</style>

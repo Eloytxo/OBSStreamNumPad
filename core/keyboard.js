@@ -23,6 +23,25 @@ const REVERSE_MAP = Object.fromEntries(
 );
 
 /**
+ * Mapa de aceleradores de Electron a teclas almacenadas.
+ *
+ * Clave: acelerador de globalShortcut (ej. "num1")
+ * Valor: nombre almacenado en settings ej. "Numpad1"
+ */
+const ACCELERATOR_MAP = {
+    'num0': 'Numpad0',
+    'num1': 'Numpad1',
+    'num2': 'Numpad2',
+    'num3': 'Numpad3',
+    'num4': 'Numpad4',
+    'num5': 'Numpad5',
+    'num6': 'Numpad6',
+    'num7': 'Numpad7',
+    'num8': 'Numpad8',
+    'num9': 'Numpad9'
+};
+
+/**
  * Normaliza una tecla runtime al formato almacenado.
  *
  * @param {string} runtimeKey - Nombre de tecla desde el listener (ej. "NUMPAD 1")
@@ -43,5 +62,36 @@ export function normalize(runtimeKey) {
 export function toRuntime(storedKey) {
 
     return REVERSE_MAP[storedKey] || null;
+
+}
+
+/**
+ * Normaliza un acelerador de Electron al formato almacenado.
+ * También acepta valores ya normalizados (p. ej. "Numpad1").
+ *
+ * @param {string} accelerator - Acelerador de globalShortcut (ej. "num1") o tecla almacenada
+ * @returns {string|null} Nombre normalizado (ej. "Numpad1") o null si es desconocida
+ */
+export function normalizeAccelerator(accelerator) {
+
+    if (!accelerator) {
+
+        return null;
+
+    }
+
+    if (ACCELERATOR_MAP[accelerator.toLowerCase()]) {
+
+        return ACCELERATOR_MAP[accelerator.toLowerCase()];
+
+    }
+
+    if (/^Numpad\d$/.test(accelerator)) {
+
+        return accelerator;
+
+    }
+
+    return null;
 
 }

@@ -3,7 +3,7 @@ import KeyboardService from '../services/KeyboardService.js';
 import ActionDispatcher from '../services/ActionDispatcher.js';
 import OBSService from '../services/OBSService.js';
 import SettingsService from '../services/SettingsService.js';
-import { normalize } from '../../core/keyboard.js';
+import { normalizeAccelerator } from '../../core/keyboard.js';
 
 let dispatcher = null;
 
@@ -33,7 +33,7 @@ ipcMain.handle('keyboard:start', async () => {
     const result = KeyboardService.start(({ key, state }) => {
 
         // Solo procesar teclas del numpad
-        const normalizedKey = normalize(key);
+        const normalizedKey = normalizeAccelerator(key);
 
         if (!normalizedKey) {
 
