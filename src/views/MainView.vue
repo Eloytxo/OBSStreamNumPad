@@ -23,10 +23,11 @@ function startListening() {
 function handleKeyDown(event) {
     if (!listening.value) return;
 
-    const key = event.key;
+    // Use event.code for consistent numpad key names (e.g., "Numpad1" instead of "1")
+    const code = event.code;
 
-    if (key.startsWith("Numpad") || (key >= "0" && key <= "9") || key === "Enter" || key === "+" || key === "-" || key === "*" || key === "/" || key === ".") {
-        capturedKey.value = key;
+    if (code.startsWith("Numpad") || code === "Enter" || code === "NumpadAdd" || code === "NumpadSubtract" || code === "NumpadMultiply" || code === "NumpadDivide" || code === "NumpadDecimal") {
+        capturedKey.value = code;
         listening.value = false;
         event.preventDefault();
     }

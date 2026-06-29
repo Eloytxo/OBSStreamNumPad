@@ -37,6 +37,9 @@ async function connect() {
             password: connectionStore.password
         });
 
+        // Start global keyboard listener after successful connection
+        await window.api.keyboard.start();
+
         router.push("/summary");
     } else {
         connectionStore.status = CONNECTION_STATUS.DISCONNECTED;

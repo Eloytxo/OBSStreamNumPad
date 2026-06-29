@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import './ipc/system.js';
 import './ipc/obs.js';
 import './ipc/settings.js';
+import { initKeyboardIPC } from './ipc/keyboard.js';
+import KeyboardService from './services/KeyboardService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +33,9 @@ function createWindow() {
 
     });
 
+    // Inicializar IPC de teclado con la ventana principal
+    initKeyboardIPC(mainWindow);
+
     if (isDev) {
 
         mainWindow.loadURL('http://localhost:5173');
@@ -47,14 +52,6 @@ function createWindow() {
 
 }
 
-// ipcMain.handle('system:test', async () => {
-
-//     console.log('Petición recibida desde Vue');
-
-//     return '¡Electron responde correctamente!';
-
-// });
-
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
@@ -64,5 +61,12 @@ app.on('window-all-closed', () => {
         app.quit();
 
     }
+
+});
+
+// Liberar el hook del teclado al cerrar la aplicación
+app.on('before-quit', () => {
+
+    KeyboardService.stop();
 
 });

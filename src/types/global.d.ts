@@ -25,6 +25,12 @@ declare global {
                 save(data: Record<string, unknown>): Promise<{ success: boolean }>;
             };
 
+            keyboard: {
+                start(): Promise<{ success: boolean; message?: string }>;
+                stop(): Promise<{ success: boolean }>;
+                onActionExecuted(cb: (data: { key: string; success: boolean; error?: string }) => void): void;
+            };
+
         };
 
     }

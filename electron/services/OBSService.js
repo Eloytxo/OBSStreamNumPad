@@ -107,6 +107,98 @@ class OBSService {
 
     }
 
+    /**
+     * Cambia la escena actual en OBS.
+     *
+     * @param {string} sceneName - Nombre de la escena destino
+     * @returns {Promise<{success:boolean,message?:string}>}
+     */
+    async setCurrentScene(sceneName) {
+
+        if (!this.connected) {
+
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+
+        }
+
+        try {
+
+            console.log(`[OBSService] Llamando SetCurrentProgramScene con sceneName: "${sceneName}"`);
+            await this.obs.call('SetCurrentProgramScene', {
+                sceneName
+            });
+
+            return {
+                success: true
+            };
+
+        } catch (error) {
+
+            console.error(`[OBSService] Error en SetCurrentProgramScene:`, error);
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    /**
+     * Dispara una acción sobre un input de tipo media en OBS.
+     *
+     * @param {string} inputName - Nombre del input media
+     * @param {string} action - Acción a ejecutar (ej. "PLAY", "PAUSE", "STOP", "RESTART")
+     * @returns {Promise<{success:boolean,message?:string}>}
+     */
+    async triggerMediaAction(inputName, action) {
+
+        if (!this.connected) {
+
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+
+        }
+
+        try {
+
+            // Map simplified action names to OBS WebSocket v5 enum values
+            const MEDIA_ACTIONS = {
+                PLAY: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY',
+                PAUSE: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE',
+                STOP: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP',
+                RESTART: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART'
+            };
+
+            const obsAction = MEDIA_ACTIONS[action] || action;
+
+            console.log(`[OBSService] Llamando TriggerMediaInputAction con inputName: "${inputName}", mediaAction: "${obsAction}"`);
+            await this.obs.call('TriggerMediaInputAction', {
+                inputName,
+                mediaAction: obsAction
+            });
+
+            return {
+                success: true
+            };
+
+        } catch (error) {
+
+            console.error(`[OBSService] Error en TriggerMediaInputAction:`, error);
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
 }
 
 export default new OBSService();

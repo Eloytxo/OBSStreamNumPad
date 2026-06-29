@@ -14,5 +14,10 @@ contextBridge.exposeInMainWorld('api', {
     settings: {
         load: () => ipcRenderer.invoke('settings:load'),
         save: (data) => ipcRenderer.invoke('settings:save', data)
+    },
+    keyboard: {
+        start: () => ipcRenderer.invoke('keyboard:start'),
+        stop: () => ipcRenderer.invoke('keyboard:stop'),
+        onActionExecuted: (cb) => ipcRenderer.on('action:executed', (_event, data) => cb(data))
     }
 });
