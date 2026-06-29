@@ -59,6 +59,73 @@ class ActionDispatcher {
                 result = await this.obsService.triggerMediaAction(mapping.target, 'RESTART');
                 console.log(`[ActionDispatcher] Resultado triggerMediaAction:`, result);
 
+            } else if (mapping.actionType === ActionType.TOGGLE_VISIBILITY) {
+
+                console.log(`[ActionDispatcher] TOGGLE_VISIBILITY para source: "${mapping.target}"`);
+
+                // Paso 1: Obtener la escena actual
+                const sceneListResult = await this.obsService.getSceneList();
+
+                if (!sceneListResult.success) {
+
+                    result = {
+                        success: false,
+                        message: `No se pudo obtener la escena actual: ${sceneListResult.message}`
+                    };
+
+                } else {
+
+                    const sceneName = sceneListResult.currentProgramSceneName;
+
+                    if (!sceneName) {
+
+                        result = {
+                            success: false,
+                            message: 'No se encontró la escena activa'
+                        };
+
+                    } else {
+
+                        // Paso 2: Resolver sceneItemId del source en la escena actual
+                        const itemIdResult = await this.obsService.getSceneItemId(mapping.target, sceneName);
+
+                        if (!itemIdResult.success) {
+
+                            // Source no está en la escena actual → no-op
+                            console.warn(`[ActionDispatcher] Source "${mapping.target}" no encontrado en la escena "${sceneName}" — no-op`);
+                            result = {
+                                success: true
+                            };
+
+                        } else {
+
+                            const sceneItemId = itemIdResult.data;
+
+                            // Paso 3: Leer estado actual
+                            const enabledResult = await this.obsService.getSceneItemEnabled(sceneItemId, sceneName);
+
+                            if (!enabledResult.success) {
+
+                                result = {
+                                    success: false,
+                                    message: `No se pudo leer el estado del item: ${enabledResult.message}`
+                                };
+
+                            } else {
+
+                                const currentEnabled = enabledResult.data;
+
+                                // Paso 4: Invertir visibilidad
+                                result = await this.obsService.setSceneItemEnabled(sceneItemId, sceneName, !currentEnabled);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
             } else {
 
                 console.warn(`[ActionDispatcher] Tipo de acción desconocido: ${mapping.actionType}`);

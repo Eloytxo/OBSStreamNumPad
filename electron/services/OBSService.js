@@ -71,7 +71,8 @@ class OBSService {
 
             return {
                 success: true,
-                scenes: result.scenes
+                scenes: result.scenes,
+                currentProgramSceneName: result.currentProgramSceneName
             };
 
         } catch (error) {
@@ -190,6 +191,136 @@ class OBSService {
         } catch (error) {
 
             console.error(`[OBSService] Error en TriggerMediaInputAction:`, error);
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    /**
+     * Obtiene el sceneItemId de un source dentro de una escena.
+     *
+     * @param {string} sourceName - Nombre del source (input) en OBS
+     * @param {string} sceneName - Nombre de la escena
+     * @returns {Promise<{success:boolean,data?:number,message?:string}>}
+     */
+    async getSceneItemId(sourceName, sceneName) {
+
+        if (!this.connected) {
+
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+
+        }
+
+        try {
+
+            console.log(`[OBSService] Llamando GetSceneItemId con sourceName: "${sourceName}", sceneName: "${sceneName}"`);
+            const result = await this.obs.call('GetSceneItemId', {
+                sceneName,
+                sourceName
+            });
+
+            return {
+                success: true,
+                data: result.sceneItemId
+            };
+
+        } catch (error) {
+
+            console.error(`[OBSService] Error en GetSceneItemId:`, error);
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    /**
+     * Obtiene el estado enabled/disabled de un scene item.
+     *
+     * @param {number} sceneItemId - ID del item en la escena
+     * @param {string} sceneName - Nombre de la escena
+     * @returns {Promise<{success:boolean,data?:boolean,message?:string}>}
+     */
+    async getSceneItemEnabled(sceneItemId, sceneName) {
+
+        if (!this.connected) {
+
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+
+        }
+
+        try {
+
+            console.log(`[OBSService] Llamando GetSceneItemEnabled con sceneItemId: ${sceneItemId}, sceneName: "${sceneName}"`);
+            const result = await this.obs.call('GetSceneItemEnabled', {
+                sceneName,
+                sceneItemId
+            });
+
+            return {
+                success: true,
+                data: result.sceneItemEnabled
+            };
+
+        } catch (error) {
+
+            console.error(`[OBSService] Error en GetSceneItemEnabled:`, error);
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    /**
+     * Establece el estado enabled/disabled de un scene item.
+     *
+     * @param {number} sceneItemId - ID del item en la escena
+     * @param {string} sceneName - Nombre de la escena
+     * @param {boolean} enabled - true para mostrar, false para ocultar
+     * @returns {Promise<{success:boolean,message?:string}>}
+     */
+    async setSceneItemEnabled(sceneItemId, sceneName, enabled) {
+
+        if (!this.connected) {
+
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+
+        }
+
+        try {
+
+            console.log(`[OBSService] Llamando SetSceneItemEnabled con sceneItemId: ${sceneItemId}, sceneName: "${sceneName}", enabled: ${enabled}`);
+            await this.obs.call('SetSceneItemEnabled', {
+                sceneName,
+                sceneItemId,
+                sceneItemEnabled: enabled
+            });
+
+            return {
+                success: true
+            };
+
+        } catch (error) {
+
+            console.error(`[OBSService] Error en SetSceneItemEnabled:`, error);
             return {
                 success: false,
                 message: error.message

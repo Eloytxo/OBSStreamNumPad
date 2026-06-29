@@ -33,7 +33,10 @@ function closePopup() {
 }
 
 function getActionTypeLabel(actionType) {
-    return actionType === "scene" ? t("main.type_scene") : t("main.type_media");
+    if (actionType === "scene") return t("main.type_scene");
+    if (actionType === "media") return t("main.type_media");
+    if (actionType === "toggle_visibility") return t("main.type_toggle_visibility");
+    return actionType;
 }
 </script>
 

@@ -4,6 +4,7 @@
 export const ActionType = {
 
     SCENE: 'scene',
-    MEDIA: 'media'
+    MEDIA: 'media',
+    TOGGLE_VISIBILITY: 'toggle_visibility'
 
 };

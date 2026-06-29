@@ -29,6 +29,7 @@
     "action_type": "Tipo de acción",
     "type_media": "Media",
     "type_scene": "Cambio de escena",
+    "type_toggle_visibility": "Visibilidad",
     "target": "Target",
     "select_target": "Selecciona un target",
     "add_mapping": "Agregar mapping",

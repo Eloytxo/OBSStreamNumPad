@@ -17,7 +17,9 @@ const listening = ref(false);
 const sortKey = ref("key");
 const sortDirection = ref("asc");
 
-function startListening() {
+async function startListening() {
+    // Pausar atajos globales para que el listener del renderer reciba la tecla
+    await window.api.keyboard.stop();
     listening.value = true;
     capturedKey.value = "";
 }
@@ -32,11 +34,15 @@ function handleKeyDown(event) {
         capturedKey.value = code;
         listening.value = false;
         event.preventDefault();
+        // Reactivar atajos globales tras capturar la tecla
+        window.api.keyboard.start();
     }
 }
 
-function stopListening() {
+async function stopListening() {
     listening.value = false;
+    // Reactivar atajos globales al cancelar la captura
+    await window.api.keyboard.start();
 }
 
 async function addMapping() {
@@ -140,7 +146,18 @@ onMounted(async () => {
 
 onUnmounted(() => {
     document.removeEventListener("keydown", handleKeyDown);
+    // Si se sale de la vista mientras se está capturando, reactivar atajos
+    if (listening.value) {
+        window.api.keyboard.start();
+    }
 });
+
+function getActionTypeLabel(actionType) {
+    if (actionType === "scene") return t("main.type_scene");
+    if (actionType === "media") return t("main.type_media");
+    if (actionType === "toggle_visibility") return t("main.type_toggle_visibility");
+    return actionType;
+}
 
 function getMediaInputs() {
     return obsStore.inputs.filter(
@@ -183,6 +200,7 @@ function getMediaInputs() {
                     <select v-model="actionType">
                         <option value="scene">{{ t("main.type_scene") }}</option>
                         <option value="media">{{ t("main.type_media") }}</option>
+                        <option value="toggle_visibility">{{ t("main.type_toggle_visibility") }}</option>
                     </select>
                 </div>
 
@@ -199,6 +217,16 @@ function getMediaInputs() {
                                 :value="scene.sceneName"
                             >
                                 {{ scene.sceneName }}
+                            </option>
+                        </template>
+
+                        <template v-else-if="actionType === 'toggle_visibility'">
+                            <option
+                                v-for="input in obsStore.inputs"
+                                :key="input.inputName"
+                                :value="input.inputName"
+                            >
+                                {{ input.inputName }}
                             </option>
                         </template>
 
@@ -250,7 +278,7 @@ function getMediaInputs() {
                             :key="index"
                         >
                             <td>{{ mapping.key }}</td>
-                            <td>{{ mapping.actionType === "scene" ? t("main.type_scene") : t("main.type_media") }}</td>
+                            <td>{{ getActionTypeLabel(mapping.actionType) }}</td>
                             <td>{{ mapping.target }}</td>
                             <td>
                                 <button
