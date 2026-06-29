@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import settingsService from '../services/settingsService.js';
+import settingsService from '../services/SettingsService.js';
 
 ipcMain.handle('settings:load', async () => {
     return settingsService.getAll();

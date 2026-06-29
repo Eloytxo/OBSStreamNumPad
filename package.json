@@ -8,7 +8,8 @@
     "dev:vite": "vite --host --strictPort",
     "dev:electron": "wait-on http://localhost:5173 && electron .",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dist": "npm run build && electron-builder --win"
   },
   "dependencies": {
     "electron-store": "^11.0.2",
@@ -22,8 +23,38 @@
     "@vitejs/plugin-vue": "^6.0.7",
     "concurrently": "^10.0.3",
     "electron": "^42.5.0",
+    "electron-builder": "^26.15.3",
     "vite": "^8.1.0",
     "wait-on": "^9.0.10"
   },
-  "main": "electron/main.js"
+  "main": "electron/main.js",
+  "build": {
+    "appId": "com.obsstreamnumpad.app",
+    "productName": "OBSStreamNumPad",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "core/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/favicon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
 }

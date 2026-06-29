@@ -9,7 +9,7 @@ import { initKeyboardIPC } from './ipc/keyboard.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isDev = !app.isPackaged;
+const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 
 let mainWindow;
 
@@ -43,9 +43,15 @@ function createWindow() {
 
     } else {
 
-        mainWindow.loadFile(
-            path.join(__dirname, '../dist/index.html')
-        );
+        const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
+
+        console.log('[Main] Loading production build from:', indexPath);
+
+        mainWindow.loadFile(indexPath).catch(err => {
+
+            console.error('[Main] Failed to load index.html:', err);
+
+        });
 
     }
 
