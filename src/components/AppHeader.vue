@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useSettingsStore } from '../stores/settings';
 import { useConnectionStore } from '../stores/connection';
 import { CONNECTION_STATUS } from '../constants/connectionStatus';
+import logo from '../assets/images/logo.png';
 
 const { t, locale } = useI18n();
 const router = useRouter();
@@ -22,14 +23,31 @@ function isConnected() {
 function navigateTo(route) {
     router.push(route);
 }
+
+function minimizeWindow() {
+    window.api.window.minimize();
+}
+
+function maximizeWindow() {
+    window.api.window.maximize();
+}
+
+function closeWindow() {
+    window.api.window.close();
+}
 </script>
 
 <template>
     <header class="app-header">
         <div class="header-top">
             <div class="header-logo">
-                <span class="logo-placeholder">🎬</span>
+                <img class="logo-image" :src="logo" alt="Logo" />
                 <h2 class="header-title">{{ t('app.title') }}</h2>
+            </div>
+            <div class="window-controls">
+                <button class="window-btn" @click="minimizeWindow" :title="t('header.minimize')">─</button>
+                <button class="window-btn" @click="maximizeWindow" :title="t('header.maximize')">□</button>
+                <button class="window-btn window-btn-close" @click="closeWindow" :title="t('header.close')">✕</button>
             </div>
         </div>
 

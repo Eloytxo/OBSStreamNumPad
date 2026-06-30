@@ -47,7 +47,7 @@
           "arch": ["x64"]
         }
       ],
-      "icon": "public/favicon.svg"
+      "icon": "public/logo.ico"
     },
     "nsis": {
       "oneClick": false,

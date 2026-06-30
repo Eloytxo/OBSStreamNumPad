@@ -19,5 +19,10 @@ contextBridge.exposeInMainWorld('api', {
         start: () => ipcRenderer.invoke('keyboard:start'),
         stop: () => ipcRenderer.invoke('keyboard:stop'),
         onActionExecuted: (cb) => ipcRenderer.on('action:executed', (_event, data) => cb(data))
+    },
+    window: {
+        close: () => ipcRenderer.invoke('window:close'),
+        minimize: () => ipcRenderer.invoke('window:minimize'),
+        maximize: () => ipcRenderer.invoke('window:maximize'),
     }
 });

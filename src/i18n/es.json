@@ -19,7 +19,10 @@
     "disconnected": "Desconectado",
     "connected": "Conectado",
     "summary": "Resumen",
-    "assign_keys": "Asignar teclas"
+    "assign_keys": "Asignar teclas",
+    "minimize": "Minimizar",
+    "maximize": "Maximizar",
+    "close": "Cerrar"
   },
   "main": {
     "title": "Configuración de mappings",

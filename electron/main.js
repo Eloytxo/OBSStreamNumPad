@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import './ipc/system.js';
@@ -16,20 +16,15 @@ let mainWindow;
 function createWindow() {
 
     mainWindow = new BrowserWindow({
-
         width: 1200,
         height: 800,
-
+        frame: false,
+        autoHideMenuBar: true,
         webPreferences: {
-
             preload: path.join(__dirname, 'preload.cjs'),
-
             contextIsolation: true,
-
             nodeIntegration: false
-
         }
-
     });
 
     // Inicializar IPC de teclado con la ventana principal
@@ -58,6 +53,12 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow);
+
+ipcMain.handle('window:close', () => mainWindow.close());
+ipcMain.handle('window:minimize', () => mainWindow.minimize());
+ipcMain.handle('window:maximize', () => {
+    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+});
 
 app.on('window-all-closed', () => {
 
