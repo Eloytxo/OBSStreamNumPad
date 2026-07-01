@@ -48,6 +48,7 @@
   "summary": {
     "title": "Assignments summary",
     "key_label": "Key",
-    "no_mapping": "Not assigned"
+    "no_mapping": "Not assigned",
+    "assign_key": "Assign key"
   }
 }

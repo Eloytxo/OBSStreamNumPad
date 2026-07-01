@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useSettingsStore } from "../stores/settings";
 
 const { t } = useI18n();
+const router = useRouter();
 const settingsStore = useSettingsStore();
 
 const selectedKey = ref(null);
@@ -30,6 +32,10 @@ function openPopup(key) {
 
 function closePopup() {
     selectedKey.value = null;
+}
+
+function assignKey() {
+    router.push({ path: "/main", query: { key: `Numpad${selectedKey.value}` } });
 }
 
 function getActionTypeLabel(actionType) {
@@ -95,7 +101,10 @@ function getActionTypeLabel(actionType) {
                 </div>
 
                 <div v-else class="popup-no-mapping">
-                    {{ t("summary.no_mapping") }}
+                    <p>{{ t("summary.no_mapping") }}</p>
+                    <button class="popup-assign-btn" @click="assignKey">
+                        {{ t("summary.assign_key") }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -107,8 +116,8 @@ function getActionTypeLabel(actionType) {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 60px);
     padding: 20px;
+    height: 100%;
 }
 
 .summary-card {
@@ -280,5 +289,24 @@ function getActionTypeLabel(actionType) {
     padding: 20px;
     background: var(--code-bg);
     border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.popup-assign-btn {
+    width: auto;
+    padding: 8px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-small);
+    cursor: pointer;
+    font-size: var(--font-size-body);
+}
+
+.popup-assign-btn:hover {
+    background: var(--color-primary-hover);
 }
 </style>

@@ -44,10 +44,20 @@ function closeWindow() {
                 <img class="logo-image" :src="logo" alt="Logo" />
                 <h2 class="header-title">{{ t('app.title') }}</h2>
             </div>
-            <div class="window-controls">
-                <button class="window-btn" @click="minimizeWindow" :title="t('header.minimize')">─</button>
-                <button class="window-btn" @click="maximizeWindow" :title="t('header.maximize')">□</button>
-                <button class="window-btn window-btn-close" @click="closeWindow" :title="t('header.close')">✕</button>
+            <div class="header-top-right">
+                <select
+                    class="language-selector"
+                    :value="locale"
+                    @change="changeLanguage($event.target.value)"
+                >
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                </select>
+                <div class="window-controls">
+                    <button class="window-btn" @click="minimizeWindow" :title="t('header.minimize')">─</button>
+                    <button class="window-btn" @click="maximizeWindow" :title="t('header.maximize')">□</button>
+                    <button class="window-btn window-btn-close" @click="closeWindow" :title="t('header.close')">✕</button>
+                </div>
             </div>
         </div>
 
@@ -61,6 +71,8 @@ function closeWindow() {
                 </button>
             </div>
 
+            <div class="header-section"></div>
+
             <div class="header-section">
                 <div class="connection-indicator">
                     <span
@@ -71,17 +83,6 @@ function closeWindow() {
                         {{ isConnected() ? t('header.connected') : t('header.disconnected') }}
                     </span>
                 </div>
-            </div>
-
-            <div class="header-section">
-                <select
-                    class="language-selector"
-                    :value="locale"
-                    @change="changeLanguage($event.target.value)"
-                >
-                    <option value="es">ES</option>
-                    <option value="en">EN</option>
-                </select>
             </div>
         </div>
     </header>

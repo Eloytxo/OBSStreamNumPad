@@ -1,12 +1,13 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useObsStore } from "../stores/obs";
 import { useSettingsStore } from "../stores/settings";
 
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const obsStore = useObsStore();
 const settingsStore = useSettingsStore();
 
@@ -142,6 +143,12 @@ onMounted(async () => {
     document.addEventListener("keydown", handleKeyDown);
     await obsStore.fetchScenes();
     await obsStore.fetchInputs();
+
+    // Si viene una tecla preseleccionada desde el resumen, usarla
+    const preselectedKey = route.query.key;
+    if (preselectedKey) {
+        capturedKey.value = preselectedKey;
+    }
 });
 
 onUnmounted(() => {

@@ -11,3 +11,9 @@ import AppHeader from './components/AppHeader.vue';
         </main>
     </div>
 </template>
+
+<style>
+.app-content > * {
+    height: 100%;
+}
+</style>

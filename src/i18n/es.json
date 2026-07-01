@@ -48,6 +48,7 @@
   "summary": {
     "title": "Resumen de asignaciones",
     "key_label": "Tecla",
-    "no_mapping": "Sin asignar"
+    "no_mapping": "Sin asignar",
+    "assign_key": "Asignar tecla"
   }
 }
