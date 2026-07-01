@@ -13,6 +13,8 @@ dist-ssr
 *.local
 openspec
 *.md
+!README.md
+!README.es.md
 release/
 
 # Editor directories and files

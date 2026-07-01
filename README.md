@@ -46,8 +46,6 @@ This opens the app in development mode with hot-reload.
 3. Make sure the WebSocket server is **enabled**.
 4. Click **Show Connect Info** to see the host, port, and password.
 
-<img src="doc/images/001_en.jpg" width="600" alt="OBS WebSocket settings" />
-
 ## Connection Screen
 
 Enter the host, port, and password from OBS and click **Connect**.
