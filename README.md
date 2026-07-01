@@ -16,6 +16,7 @@ Turn your USB Numpad into a budget StreamDeck for OBS Studio.
 
 - **Windows** (only supported platform for now)
 - **OBS Studio** must be running
+- **Num Lock** must be enabled on your keyboard
 - Node.js 18+ (for development only)
 
 ## Installation
@@ -82,9 +83,10 @@ Assigned keys show a green indicator. Click any key to see its details or reassi
 ## How It Works with OBS
 
 1. **Start OBS Studio** and make sure the WebSocket server is enabled.
-2. **Open OBSStreamNumPad** and connect using the credentials from OBS.
-3. **Assign your numpad keys** to scenes, media sources, or visibility toggles.
-4. **Press the keys** — OBSStreamNumPad sends the command to OBS via WebSocket in real time.
+2. **Enable Num Lock** on your keyboard (required for numpad keys to work).
+3. **Open OBSStreamNumPad** and connect using the credentials from OBS.
+4. **Assign your numpad keys** to scenes, media sources, or visibility toggles.
+5. **Press the keys** — OBSStreamNumPad sends the command to OBS via WebSocket in real time.
 
 All mappings are saved locally and persist between sessions.
 

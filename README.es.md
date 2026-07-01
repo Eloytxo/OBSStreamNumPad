@@ -16,6 +16,7 @@ Convierte tu teclado numérico USB en un StreamDeck casero para OBS Studio.
 
 - **Windows** (única plataforma soportada por ahora)
 - **OBS Studio** debe estar abierto
+- **Bloq Num** activado en el teclado
 - Node.js 18+ (solo para desarrollo)
 
 ## Instalación
@@ -82,9 +83,10 @@ Las teclas asignadas muestran un indicador verde. Haz clic en cualquier tecla pa
 ## Cómo funciona con OBS
 
 1. **Abre OBS Studio** y asegúrate de que el servidor WebSocket esté habilitado.
-2. **Abre OBSStreamNumPad** y conéctate con los datos de OBS.
-3. **Asigna tus teclas** del numpad a escenas, fuentes multimedia o toggles de visibilidad.
-4. **Pulsa las teclas** — OBSStreamNumPad envía el comando a OBS vía WebSocket en tiempo real.
+2. **Activa el Bloq Num** en tu teclado (necesario para que funcionen las teclas del numpad).
+3. **Abre OBSStreamNumPad** y conéctate con los datos de OBS.
+4. **Asigna tus teclas** del numpad a escenas, fuentes multimedia o toggles de visibilidad.
+5. **Pulsa las teclas** — OBSStreamNumPad envía el comando a OBS vía WebSocket en tiempo real.
 
 Todas las asignaciones se guardan localmente y persisten entre sesiones.
 
