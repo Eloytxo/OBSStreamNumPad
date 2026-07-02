@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useConnectionStore } from './connection';
 
 export const useSettingsStore = defineStore('settings', () => {
 
@@ -16,6 +17,12 @@ export const useSettingsStore = defineStore('settings', () => {
         password.value = data.password;
         locale.value = data.locale;
         mappings.value = data.mappings;
+
+        // Sincronizar con connectionStore para que aparezcan prellenados
+        const connectionStore = useConnectionStore();
+        connectionStore.host = data.host;
+        connectionStore.port = data.port;
+        connectionStore.password = data.password;
     }
 
     async function saveToElectron() {
