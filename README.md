@@ -4,6 +4,8 @@
 
 Turn your USB Numpad into a budget StreamDeck for OBS Studio.
 
+<img src="doc/images/logo.png" width="600" alt="OBSStreamNumPad_Logo" />
+
 ## Features
 
 - **Scene switching** — assign a numpad key to switch to any OBS scene

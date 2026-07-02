@@ -4,6 +4,8 @@
 
 Convierte tu teclado numérico USB en un StreamDeck casero para OBS Studio.
 
+<img src="doc/images/logo.png" width="600" alt="OBSStreamNumPad_Logo" />
+
 ## Funcionalidades
 
 - **Cambio de escenas** — asigna una tecla del numpad para cambiar a cualquier escena de OBS
