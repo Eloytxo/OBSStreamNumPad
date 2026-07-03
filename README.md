@@ -100,6 +100,15 @@ All mappings are saved locally and persist between sessions.
 - **obs-websocket-js** — OBS WebSocket client
 - **electron-builder** — packaging
 
+## Support This Project
+
+OBSStreamNumPad is free and open-source. If you find it useful and want to support its development, any contribution is appreciated!
+
+[![Sponsor on GitHub](https://img.shields.io/badge/GitHub_Sponsors-Support-2ea44f?logo=githubsponsors)](https://github.com/sponsors/Eloytxo)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Donate-ffdd00?logo=buymeacoffee)](https://buymeacoffee.com/eloytxo)
+
+Every bit helps me keep improving it and adding new features. Thanks!
+
 ## License
 
 MIT

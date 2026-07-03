@@ -100,6 +100,15 @@ Todas las asignaciones se guardan localmente y persisten entre sesiones.
 - **obs-websocket-js** — cliente WebSocket de OBS
 - **electron-builder** — empaquetado
 
+## Apoya este proyecto
+
+OBSStreamNumPad es gratuito y de código abierto. Si te resulta útil y quieres apoyar su desarrollo, ¡cualquier aportación se agradece!
+
+[![Sponsor en GitHub](https://img.shields.io/badge/GitHub_Sponsors-Apoyar-2ea44f?logo=githubsponsors)](https://github.com/sponsors/Eloytxo)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-Donar-ffdd00?logo=buymeacoffee)](https://buymeacoffee.com/eloytxo)
+
+Cada granito de arena me ayuda a seguir mejorándolo y añadiendo funcionalidades. ¡Gracias!
+
 ## Licencia
 
 MIT
