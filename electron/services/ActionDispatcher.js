@@ -147,9 +147,18 @@ class ActionDispatcher {
 
         }
 
+        const actionLabels = {
+            scene: 'Escena',
+            media: 'Media',
+            toggle_visibility: 'Visibilidad'
+        };
+
         const outcome = {
             key: normalizedKey,
             success: result.success,
+            actionType: mapping.actionType,
+            target: mapping.target,
+            actionLabel: actionLabels[mapping.actionType] || mapping.actionType,
             ...(result.message && { error: result.message })
         };
 

@@ -1,5 +1,6 @@
 <script setup>
 import AppHeader from './components/AppHeader.vue';
+import ActionToast from './components/ActionToast.vue';
 </script>
 
 
@@ -9,6 +10,7 @@ import AppHeader from './components/AppHeader.vue';
         <main class="app-content">
             <router-view />
         </main>
+        <ActionToast />
     </div>
 </template>
 
