@@ -3,6 +3,8 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useSettingsStore } from "../stores/settings";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faLayerGroup, faCirclePlay, faEye } from "@fortawesome/free-solid-svg-icons";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -15,6 +17,36 @@ const numpadLayout = [
     ["4", "5", "6"],
     ["1", "2", "3"],
 ];
+
+const actionConfig = {
+    scene: {
+        color: "#60a5fa",
+        colorHover: "#93c5fd",
+        icon: faLayerGroup,
+    },
+    media: {
+        color: "#4ade80",
+        colorHover: "#86efac",
+        icon: faCirclePlay,
+    },
+    toggle_visibility: {
+        color: "#fbbf24",
+        colorHover: "#fcd34d",
+        icon: faEye,
+    },
+};
+
+function getActionConfig(actionType) {
+    return actionConfig[actionType] || { color: "#6b7280", colorHover: "#9ca3af", icon: null };
+}
+
+function numpadKeyStyle(actionType) {
+    const cfg = getActionConfig(actionType);
+    return {
+        borderColor: cfg.color,
+        background: cfg.color,
+    };
+}
 
 function getMappingForKey(key) {
     return settingsStore.mappings.find(
@@ -58,10 +90,13 @@ function getActionTypeLabel(actionType) {
                         :key="key"
                         class="numpad-key"
                         :class="{ assigned: hasMapping(key) }"
+                        :style="hasMapping(key) ? numpadKeyStyle(getMappingForKey(key).actionType) : null"
                         @click="openPopup(key)"
                     >
                         <span class="key-number">{{ key }}</span>
-                        <span v-if="hasMapping(key)" class="key-indicator"></span>
+                        <span v-if="hasMapping(key)" class="key-icon">
+                            <FontAwesomeIcon :icon="getActionConfig(getMappingForKey(key).actionType).icon" />
+                        </span>
                     </button>
                 </div>
 
@@ -69,10 +104,13 @@ function getActionTypeLabel(actionType) {
                     <button
                         class="numpad-key numpad-key-zero"
                         :class="{ assigned: hasMapping('0') }"
+                        :style="hasMapping('0') ? numpadKeyStyle(getMappingForKey('0').actionType) : null"
                         @click="openPopup('0')"
                     >
                         <span class="key-number">0</span>
-                        <span v-if="hasMapping('0')" class="key-indicator"></span>
+                        <span v-if="hasMapping('0')" class="key-icon">
+                            <FontAwesomeIcon :icon="getActionConfig(getMappingForKey('0').actionType).icon" />
+                        </span>
                     </button>
                 </div>
             </div>
@@ -87,7 +125,8 @@ function getActionTypeLabel(actionType) {
                     <div class="mapping-info">
                         <div class="mapping-row">
                             <span class="mapping-label">{{ t("main.type") }}:</span>
-                            <span class="mapping-value">
+                            <span class="mapping-value" :style="{ color: getActionConfig(getMappingForKey(selectedKey).actionType).color }">
+                                <FontAwesomeIcon :icon="getActionConfig(getMappingForKey(selectedKey).actionType).icon" class="mapping-icon" />
                                 {{ getActionTypeLabel(getMappingForKey(selectedKey).actionType) }}
                             </span>
                         </div>
@@ -169,13 +208,13 @@ function getActionTypeLabel(actionType) {
 }
 
 .numpad-key.assigned {
-    border-color: #2d5a3d;
-    background: rgba(45, 90, 61, 0.6);
+    border-color: var(--accent);
+    background: var(--accent-bg);
 }
 
 .numpad-key.assigned:hover {
-    border-color: #3d7a52;
-    background: rgba(61, 122, 82, 0.7);
+    filter: brightness(1.15);
+    transform: translateY(-2px);
 }
 
 .numpad-key-zero {
@@ -188,14 +227,12 @@ function getActionTypeLabel(actionType) {
     color: var(--text-h);
 }
 
-.key-indicator {
+.key-icon {
     position: absolute;
-    top: 8px;
+    bottom: 8px;
     right: 8px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #3d7a52;
+    font-size: 14px;
+    opacity: 0.9;
 }
 
 .popup-overlay {
@@ -280,6 +317,13 @@ function getActionTypeLabel(actionType) {
 .mapping-value {
     color: var(--text-h);
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mapping-icon {
+    font-size: 16px;
 }
 
 .popup-no-mapping {

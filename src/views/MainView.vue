@@ -166,6 +166,16 @@ function getActionTypeLabel(actionType) {
     return actionType;
 }
 
+const actionColors = {
+    scene: "#60a5fa",
+    media: "#4ade80",
+    toggle_visibility: "#fbbf24",
+};
+
+function getActionColor(type) {
+    return actionColors[type] || "#6b7280";
+}
+
 function getMediaInputs() {
     return obsStore.inputs.filter(
         (input) => input.inputKind === "ffmpeg_source" || input.inputKind === "vlc_source"
@@ -205,9 +215,9 @@ function getMediaInputs() {
                     <label>{{ t("main.action_type") }}</label>
 
                     <select v-model="actionType">
-                        <option value="scene">{{ t("main.type_scene") }}</option>
-                        <option value="media">{{ t("main.type_media") }}</option>
-                        <option value="toggle_visibility">{{ t("main.type_toggle_visibility") }}</option>
+                        <option value="scene" :style="{ background: getActionColor('scene') }">{{ t("main.type_scene") }}</option>
+                        <option value="media" :style="{ background: getActionColor('media') }">{{ t("main.type_media") }}</option>
+                        <option value="toggle_visibility" :style="{ background: getActionColor('toggle_visibility') }">{{ t("main.type_toggle_visibility") }}</option>
                     </select>
                 </div>
 
@@ -285,7 +295,7 @@ function getMediaInputs() {
                             :key="index"
                         >
                             <td>{{ mapping.key }}</td>
-                            <td>{{ getActionTypeLabel(mapping.actionType) }}</td>
+                            <td :style="{ background: getActionColor(mapping.actionType) }">{{ getActionTypeLabel(mapping.actionType) }}</td>
                             <td>{{ mapping.target }}</td>
                             <td>
                                 <button

@@ -12,6 +12,8 @@
     "dist": "npm run build && electron-builder --win"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^7.3.0",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "electron-store": "^11.0.2",
     "obs-websocket-js": "^5.0.8",
     "pinia": "^3.0.4",
@@ -44,7 +46,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "public/logo.ico"
