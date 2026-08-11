@@ -22,3 +22,19 @@ ipcMain.handle('obs:getInputs', async () => {
     return await OBSService.getInputList();
 
 });
+
+ipcMain.handle('obs:disconnect', async () => {
+
+    try {
+
+        await OBSService.disconnect();
+
+        return { success: true };
+
+    } catch (error) {
+
+        return { success: false, error: error.message };
+
+    }
+
+});

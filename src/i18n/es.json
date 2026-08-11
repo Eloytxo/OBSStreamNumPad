@@ -22,7 +22,11 @@
     "assign_keys": "Asignar teclas",
     "minimize": "Minimizar",
     "maximize": "Maximizar",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "disconnect_title": "Desconectar de OBS",
+    "disconnect_confirm": "¿Estás seguro de que quieres desconectarte de OBS? Esto detendrá el teclado y reiniciará todos los mappings.",
+    "disconnect": "Desconectar",
+    "disconnect_cancel": "Cancelar"
   },
   "main": {
     "title": "Configuración de mappings",

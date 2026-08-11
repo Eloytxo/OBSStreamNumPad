@@ -59,6 +59,7 @@ ipcMain.handle('window:minimize', () => mainWindow.minimize());
 ipcMain.handle('window:maximize', () => {
     mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
 });
+ipcMain.handle('window:focus', () => mainWindow.focus());
 
 app.on('window-all-closed', () => {
 

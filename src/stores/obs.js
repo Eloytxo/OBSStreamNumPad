@@ -27,13 +27,20 @@ export const useObsStore = defineStore('obs', () => {
         isConnected.value = connected;
     }
 
+    function reset() {
+        scenes.value = [];
+        inputs.value = [];
+        isConnected.value = false;
+    }
+
     return {
         scenes,
         inputs,
         isConnected,
         fetchScenes,
         fetchInputs,
-        setConnected
+        setConnected,
+        reset
     };
 
 });

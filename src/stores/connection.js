@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { CONNECTION_STATUS } from '../constants/connectionStatus';
+import { useObsStore } from './obs';
 
 export const useConnectionStore = defineStore('connection', () => {
 
@@ -14,6 +15,12 @@ export const useConnectionStore = defineStore('connection', () => {
     const status = ref(CONNECTION_STATUS.IDLE);
     const error = ref('');
 
+    function disconnect() {
+        status.value = CONNECTION_STATUS.IDLE;
+        error.value = '';
+        useObsStore().reset();
+    }
+
     return {
         host,
         port,
@@ -21,7 +28,8 @@ export const useConnectionStore = defineStore('connection', () => {
 
         connecting,
         status,
-        error
+        error,
+        disconnect
     };
 
 });

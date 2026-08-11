@@ -208,6 +208,17 @@ body {
     gap: var(--spacing-sm);
 }
 
+.connection-indicator.is-clickable {
+    cursor: pointer;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-small);
+    transition: background var(--transition-fast);
+}
+
+.connection-indicator.is-clickable:hover {
+    background: var(--color-surface-hover);
+}
+
 .connection-text {
     font-size: var(--font-size-body);
     color: var(--color-text-secondary);

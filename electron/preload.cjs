@@ -9,7 +9,8 @@ contextBridge.exposeInMainWorld('api', {
     obs: {
         connect: (connectionData) => ipcRenderer.invoke('obs:connect', connectionData),
         getScenes: () => ipcRenderer.invoke('obs:getScenes'),
-        getInputs: () => ipcRenderer.invoke('obs:getInputs')
+        getInputs: () => ipcRenderer.invoke('obs:getInputs'),
+        disconnect: () => ipcRenderer.invoke('obs:disconnect')
     },
     settings: {
         load: () => ipcRenderer.invoke('settings:load'),
@@ -24,5 +25,6 @@ contextBridge.exposeInMainWorld('api', {
         close: () => ipcRenderer.invoke('window:close'),
         minimize: () => ipcRenderer.invoke('window:minimize'),
         maximize: () => ipcRenderer.invoke('window:maximize'),
+        focus: () => ipcRenderer.invoke('window:focus'),
     }
 });

@@ -22,7 +22,11 @@
     "assign_keys": "Assign keys",
     "minimize": "Minimize",
     "maximize": "Maximize",
-    "close": "Close"
+    "close": "Close",
+    "disconnect_title": "Disconnect from OBS",
+    "disconnect_confirm": "Are you sure you want to disconnect from OBS? This will stop the keyboard listener and reset all mappings.",
+    "disconnect": "Disconnect",
+    "disconnect_cancel": "Cancel"
   },
   "main": {
     "title": "Mappings configuration",
