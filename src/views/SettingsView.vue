@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import { useConnectionStore } from "../stores/connection";
 import { useSettingsStore } from "../stores/settings";
 import { CONNECTION_STATUS } from "../constants/connectionStatus";
+import ConfirmDialog from "../components/ConfirmDialog.vue";
 
 const { t, locale } = useI18n();
 const router = useRouter();
@@ -77,23 +78,16 @@ async function confirmClearMappings() {
         </div>
     </div>
 
-    <!-- Clear mappings confirmation dialog -->
-    <Teleport to="body">
-        <div v-if="showClearDialog" class="dialog-overlay" @click.self="cancelClearMappings">
-            <div class="dialog-content">
-                <h3>{{ t("settings.clearMappings.confirmTitle") }}</h3>
-                <p>{{ t("settings.clearMappings.confirmMessage") }}</p>
-                <div class="dialog-actions">
-                    <button class="btn-cancel" @click="cancelClearMappings">
-                        {{ t("settings.clearMappings.cancelButton") }}
-                    </button>
-                    <button class="btn-confirm" @click="confirmClearMappings">
-                        {{ t("settings.clearMappings.confirmButton") }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </Teleport>
+    <ConfirmDialog
+        :show="showClearDialog"
+        :title="t('settings.clearMappings.confirmTitle')"
+        :message="t('settings.clearMappings.confirmMessage')"
+        :confirm-text="t('settings.clearMappings.confirmButton')"
+        :cancel-text="t('settings.clearMappings.cancelButton')"
+        confirm-class="danger"
+        @confirm="confirmClearMappings"
+        @cancel="cancelClearMappings"
+    />
 </template>
 
 <style scoped>
@@ -147,76 +141,4 @@ async function confirmClearMappings() {
     background: var(--color-border);
 }
 
-.dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.dialog-content {
-    background: var(--color-surface);
-    border-radius: var(--radius-medium);
-    padding: var(--spacing-xl);
-    max-width: 400px;
-    width: 90%;
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--color-border);
-}
-
-.dialog-content h3 {
-    margin: 0 0 var(--spacing-sm) 0;
-    font-size: var(--font-size-title);
-    text-align: center;
-}
-
-.dialog-content p {
-    color: var(--color-text-secondary);
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    font-size: var(--font-size-body);
-}
-
-.dialog-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    justify-content: center;
-}
-
-.dialog-actions button {
-    width: auto;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    margin-top: 0;
-    border-radius: var(--radius-small);
-    font-size: var(--font-size-body);
-    cursor: pointer;
-    border: 1px solid var(--color-border);
-    transition: all 0.2s;
-}
-
-.btn-cancel {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
-}
-
-.btn-cancel:hover {
-    background: var(--color-border);
-}
-
-.btn-confirm {
-    background: var(--color-error);
-    color: white;
-    border-color: var(--color-error);
-}
-
-.btn-confirm:hover {
-    background: #ff6b63;
-    border-color: #ff6b63;
-}
 </style>
