@@ -1,32 +1,15 @@
 /**
- * Mapa bidireccional de teclas del numpad.
+ * Electron globalShortcut accelerator helpers.
  *
- * Clave: nombre runtime (node-global-key-listener) ej. "NUMPAD 0"
- * Valor: nombre almacenado en settings ej. "Numpad0"
+ * Maps Electron accelerator names (e.g. "num1") to the stored key names
+ * used in the application settings (e.g. "Numpad1").
  */
-const KEY_MAP = {
-    'NUMPAD 0': 'Numpad0',
-    'NUMPAD 1': 'Numpad1',
-    'NUMPAD 2': 'Numpad2',
-    'NUMPAD 3': 'Numpad3',
-    'NUMPAD 4': 'Numpad4',
-    'NUMPAD 5': 'Numpad5',
-    'NUMPAD 6': 'Numpad6',
-    'NUMPAD 7': 'Numpad7',
-    'NUMPAD 8': 'Numpad8',
-    'NUMPAD 9': 'Numpad9'
-};
-
-// Mapa inverso: "Numpad0" → "NUMPAD 0"
-const REVERSE_MAP = Object.fromEntries(
-    Object.entries(KEY_MAP).map(([k, v]) => [v, k])
-);
 
 /**
- * Mapa de aceleradores de Electron a teclas almacenadas.
+ * Map of Electron globalShortcut accelerators to stored key names.
  *
- * Clave: acelerador de globalShortcut (ej. "num1")
- * Valor: nombre almacenado en settings ej. "Numpad1"
+ * Key: Electron accelerator (e.g. "num1")
+ * Value: stored key name (e.g. "Numpad1")
  */
 const ACCELERATOR_MAP = {
     'num0': 'Numpad0',
@@ -42,35 +25,11 @@ const ACCELERATOR_MAP = {
 };
 
 /**
- * Normaliza una tecla runtime al formato almacenado.
+ * Normalizes an Electron accelerator to the stored key name.
+ * Also accepts already normalized values (e.g. "Numpad1").
  *
- * @param {string} runtimeKey - Nombre de tecla desde el listener (ej. "NUMPAD 1")
- * @returns {string|null} Nombre normalizado (ej. "Numpad1") o null si es desconocida
- */
-export function normalize(runtimeKey) {
-
-    return KEY_MAP[runtimeKey] || null;
-
-}
-
-/**
- * Convierte una tecla almacenada al formato runtime.
- *
- * @param {string} storedKey - Nombre almacenado (ej. "Numpad0")
- * @returns {string|null} Nombre runtime (ej. "NUMPAD 0") o null si es desconocida
- */
-export function toRuntime(storedKey) {
-
-    return REVERSE_MAP[storedKey] || null;
-
-}
-
-/**
- * Normaliza un acelerador de Electron al formato almacenado.
- * También acepta valores ya normalizados (p. ej. "Numpad1").
- *
- * @param {string} accelerator - Acelerador de globalShortcut (ej. "num1") o tecla almacenada
- * @returns {string|null} Nombre normalizado (ej. "Numpad1") o null si es desconocida
+ * @param {string} accelerator - Electron globalShortcut accelerator (e.g. "num1") or stored key name
+ * @returns {string|null} Normalized key name (e.g. "Numpad1") or null if unknown
  */
 export function normalizeAccelerator(accelerator) {
 
