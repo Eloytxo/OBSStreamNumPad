@@ -27,8 +27,14 @@ class ActionDispatcher {
         // Read mappings from the store on every keypress (no cache)
         const mappings = this.settingsService.get('mappings') || [];
 
+        const matches = mappings.filter(m => m.key === normalizedKey);
+
+        if (matches.length > 1) {
+            console.warn(`[ActionDispatcher] Múltiples mappings detectados para la tecla ${normalizedKey}:`, JSON.stringify(matches));
+        }
+
         // First match wins
-        const mapping = mappings.find(m => m.key === normalizedKey);
+        const mapping = matches[0];
 
         if (!mapping) {
 
