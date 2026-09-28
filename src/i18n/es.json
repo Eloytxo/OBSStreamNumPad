@@ -57,7 +57,13 @@
     "target_col": "Target",
     "actions": "Acciones",
     "delete": "Eliminar",
-    "back": "Volver"
+    "back": "Volver",
+    "duplicate": {
+      "title": "El mapping ya existe",
+      "message": "La tecla {key} ya está asignada a {oldAction} \"{oldTarget}\". ¿Querés sobrescribirla con {newAction} \"{newTarget}\"?",
+      "confirm": "Sobrescribir",
+      "cancel": "Cancelar"
+    }
   },
   "summary": {
     "title": "Resumen de asignaciones",

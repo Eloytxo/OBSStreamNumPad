@@ -57,7 +57,13 @@
     "target_col": "Target",
     "actions": "Actions",
     "delete": "Delete",
-    "back": "Back"
+    "back": "Back",
+    "duplicate": {
+      "title": "Mapping already exists",
+      "message": "Key {key} is already mapped to {oldAction} \"{oldTarget}\". Do you want to overwrite it with {newAction} \"{newTarget}\"?",
+      "confirm": "Overwrite",
+      "cancel": "Cancel"
+    }
   },
   "settings": {
     "title": "Settings",
