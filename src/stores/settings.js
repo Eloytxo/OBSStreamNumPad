@@ -50,6 +50,26 @@ export const useSettingsStore = defineStore('settings', () => {
         await savePartial({ mappings: [] });
     }
 
+    function hasKey(key) {
+        return mappings.value.some((mapping) => mapping.key === key);
+    }
+
+    function findByKey(key) {
+        return mappings.value.find((mapping) => mapping.key === key);
+    }
+
+    async function addOrReplaceMapping(mapping) {
+        const index = mappings.value.findIndex((m) => m.key === mapping.key);
+
+        if (index >= 0) {
+            mappings.value[index] = mapping;
+        } else {
+            mappings.value.push(mapping);
+        }
+
+        await savePartial({ mappings: mappings.value });
+    }
+
     return {
         host,
         port,
@@ -59,7 +79,10 @@ export const useSettingsStore = defineStore('settings', () => {
         loadFromElectron,
         saveToElectron,
         savePartial,
-        clearMappings
+        clearMappings,
+        hasKey,
+        findByKey,
+        addOrReplaceMapping
     };
 
 });
