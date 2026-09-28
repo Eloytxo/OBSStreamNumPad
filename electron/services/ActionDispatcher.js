@@ -95,7 +95,7 @@ class ActionDispatcher {
                         // Step 2: Resolve the source's sceneItemId in the current scene
                         const itemIdResult = await this.obsService.getSceneItemId(mapping.target, sceneName);
 
-                        if (!itemIdResult.success) {
+                        if (!itemIdResult.success || itemIdResult.data == null) {
 
                             // Source is not in the current scene → no-op
                             console.warn(`[ActionDispatcher] Source "${mapping.target}" no encontrado en la escena "${sceneName}" — no-op`);
