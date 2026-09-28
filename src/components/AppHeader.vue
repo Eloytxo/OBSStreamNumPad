@@ -7,6 +7,7 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { useSettingsStore } from '../stores/settings';
 import { useConnectionStore } from '../stores/connection';
 import { CONNECTION_STATUS } from '../constants/connectionStatus';
+import ConfirmDialog from './ConfirmDialog.vue';
 import logo from '../assets/images/logo.png';
 
 const { t, locale } = useI18n();
@@ -130,99 +131,19 @@ async function confirmDisconnect() {
         </div>
     </header>
 
-    <!-- Disconnect confirmation dialog -->
-    <Teleport to="body">
-        <div v-if="showDisconnectDialog" class="dialog-overlay" @click.self="cancelDisconnect">
-            <div class="dialog-content">
-                <h3>{{ t('header.disconnect_title') }}</h3>
-                <p>{{ t('header.disconnect_confirm') }}</p>
-                <div class="dialog-actions">
-                    <button class="btn-cancel" @click="cancelDisconnect">
-                        {{ t('header.disconnect_cancel') }}
-                    </button>
-                    <button class="btn-confirm" @click="confirmDisconnect">
-                        {{ t('header.disconnect') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </Teleport>
+    <ConfirmDialog
+        :show="showDisconnectDialog"
+        :title="t('header.disconnect_title')"
+        :message="t('header.disconnect_confirm')"
+        :confirm-text="t('header.disconnect')"
+        :cancel-text="t('header.disconnect_cancel')"
+        confirm-class="danger"
+        @confirm="confirmDisconnect"
+        @cancel="cancelDisconnect"
+    />
 </template>
 
 <style scoped>
-.dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.dialog-content {
-    background: var(--color-surface);
-    border-radius: var(--radius-medium);
-    padding: var(--spacing-xl);
-    max-width: 400px;
-    width: 90%;
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--color-border);
-}
-
-.dialog-content h3 {
-    margin: 0 0 var(--spacing-sm) 0;
-    font-size: var(--font-size-title);
-    text-align: center;
-}
-
-.dialog-content p {
-    color: var(--color-text-secondary);
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    font-size: var(--font-size-body);
-}
-
-.dialog-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    justify-content: center;
-}
-
-.dialog-actions button {
-    width: auto;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    margin-top: 0;
-    border-radius: var(--radius-small);
-    font-size: var(--font-size-body);
-    cursor: pointer;
-    border: 1px solid var(--color-border);
-    transition: all 0.2s;
-}
-
-.btn-cancel {
-    background: var(--color-surface-hover);
-    color: var(--color-text);
-}
-
-.btn-cancel:hover {
-    background: var(--color-border);
-}
-
-.btn-confirm {
-    background: var(--color-error);
-    color: white;
-    border-color: var(--color-error);
-}
-
-.btn-confirm:hover {
-    background: #ff6b63;
-    border-color: #ff6b63;
-}
-
 .settings-button {
     width: 32px;
     height: 32px;
