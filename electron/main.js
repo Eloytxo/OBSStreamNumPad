@@ -1,7 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import './ipc/system.js';
 import './ipc/obs.js';
 import './ipc/settings.js';
 import { initKeyboardIPC } from './ipc/keyboard.js';
