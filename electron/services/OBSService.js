@@ -1,11 +1,19 @@
+import EventEmitter from 'node:events';
 import OBSWebSocket from 'obs-websocket-js';
 
-class OBSService {
+class OBSService extends EventEmitter {
 
     constructor() {
+        super();
+
         this.obs = new OBSWebSocket();
 
         this.connected = false;
+        this._manuallyClosing = false;
+
+        this.obs.on('ConnectionClosed', (error) => this._handleUnexpectedClose('closed', error));
+        this.obs.on('ConnectionError', (error) => this._handleUnexpectedClose('error', error));
+        this.obs.on('ExitStarted', () => this._handleUnexpectedClose('exit'));
     }
 
     /**
@@ -47,13 +55,41 @@ class OBSService {
 
     async disconnect() {
 
-        if (this.connected) {
-
-            this.obs.disconnect();
-
-            this.connected = false;
-
+        if (!this.connected) {
+            return;
         }
+
+        this._manuallyClosing = true;
+
+        try {
+            await this.obs.disconnect();
+        } catch (error) {
+            console.error('[OBSService] Error during disconnect:', error);
+        } finally {
+            this._manuallyClosing = false;
+            this.connected = false;
+        }
+
+    }
+
+    /**
+     * Handles unexpected websocket closures triggered by obs-websocket-js events.
+     *
+     * @param {string} reason - 'closed' | 'error' | 'exit'
+     * @param {Error} [error]
+     * @private
+     */
+    _handleUnexpectedClose(reason, error) {
+
+        if (!this.connected || this._manuallyClosing) {
+            return;
+        }
+
+        console.error(`[OBSService] Unexpected connection loss: ${reason}`, error);
+
+        this.connected = false;
+
+        this.emit('connectionLost', { reason, error });
 
     }
 
