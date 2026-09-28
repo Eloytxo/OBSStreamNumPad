@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, nextTick, onUnmounted, useId } from 'vue'
+import { ref, computed, watch, nextTick, onUnmounted, useId } from 'vue'
 
 const props = defineProps({
     show: {
@@ -30,9 +30,19 @@ const props = defineProps({
 
 const emit = defineEmits(['confirm', 'cancel'])
 
+const dialogRef = ref(null)
 const confirmButton = ref(null)
+const cancelButton = ref(null)
+const startSentinel = ref(null)
+const endSentinel = ref(null)
 const titleId = useId()
 const messageId = useId()
+
+const previouslyFocused = ref(null)
+
+const isDanger = computed(() =>
+    props.confirmClass.split(/\s+/).includes('danger')
+)
 
 function handleEscape(event) {
     if (event.key === 'Escape') {
@@ -40,15 +50,66 @@ function handleEscape(event) {
     }
 }
 
+function getFocusableElements() {
+    if (!dialogRef.value) return []
+
+    const selector =
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
+    return Array.from(dialogRef.value.querySelectorAll(selector)).filter(
+        (el) =>
+            !el.classList.contains('focus-trap-sentinel') &&
+            el.tabIndex >= 0 &&
+            !el.disabled &&
+            el.offsetParent !== null
+    )
+}
+
+function focusFirst() {
+    const elements = getFocusableElements()
+    elements[0]?.focus()
+}
+
+function focusLast() {
+    const elements = getFocusableElements()
+    elements[elements.length - 1]?.focus()
+}
+
+function focusInitial() {
+    if (isDanger.value) {
+        cancelButton.value?.focus()
+    } else {
+        confirmButton.value?.focus()
+    }
+}
+
+function restoreFocus() {
+    const element = previouslyFocused.value
+
+    if (
+        element &&
+        document.contains(element) &&
+        typeof element.focus === 'function' &&
+        element.tabIndex >= 0
+    ) {
+        element.focus()
+    } else {
+        document.body.focus()
+    }
+}
+
 watch(
     () => props.show,
     async (show) => {
         if (show) {
+            previouslyFocused.value = document.activeElement
             document.addEventListener('keydown', handleEscape)
             await nextTick()
-            confirmButton.value?.focus()
+            focusInitial()
         } else {
             document.removeEventListener('keydown', handleEscape)
+            await nextTick()
+            restoreFocus()
         }
     },
     { immediate: false }
@@ -68,16 +129,25 @@ onUnmounted(() => {
             @click.self="emit('cancel')"
         >
             <div
+                ref="dialogRef"
                 class="dialog-content"
                 role="dialog"
                 aria-modal="true"
                 :aria-labelledby="titleId"
                 :aria-describedby="messageId"
             >
+                <div
+                    ref="startSentinel"
+                    class="focus-trap-sentinel"
+                    tabindex="0"
+                    @focus="focusLast"
+                ></div>
+
                 <h3 :id="titleId" class="dialog-title">{{ title }}</h3>
                 <p :id="messageId" class="dialog-message">{{ message }}</p>
                 <div class="dialog-actions">
                     <button
+                        ref="cancelButton"
                         type="button"
                         class="btn-cancel"
                         @click="emit('cancel')"
@@ -93,6 +163,13 @@ onUnmounted(() => {
                         {{ confirmText }}
                     </button>
                 </div>
+
+                <div
+                    ref="endSentinel"
+                    class="focus-trap-sentinel"
+                    tabindex="0"
+                    @focus="focusFirst"
+                ></div>
             </div>
         </div>
     </Teleport>
@@ -113,6 +190,7 @@ onUnmounted(() => {
 }
 
 .dialog-content {
+    position: relative;
     background: var(--color-surface);
     border-radius: var(--radius-medium);
     padding: var(--spacing-xl);
@@ -120,6 +198,19 @@ onUnmounted(() => {
     width: 90%;
     box-shadow: var(--shadow-card);
     border: 1px solid var(--color-border);
+}
+
+.focus-trap-sentinel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    outline: none !important;
 }
 
 .dialog-title {
