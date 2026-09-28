@@ -46,6 +46,10 @@ export const useSettingsStore = defineStore('settings', () => {
         if (data.mappings !== undefined) mappings.value = data.mappings;
     }
 
+    async function clearMappings() {
+        await savePartial({ mappings: [] });
+    }
+
     return {
         host,
         port,
@@ -54,7 +58,8 @@ export const useSettingsStore = defineStore('settings', () => {
         mappings,
         loadFromElectron,
         saveToElectron,
-        savePartial
+        savePartial,
+        clearMappings
     };
 
 });
