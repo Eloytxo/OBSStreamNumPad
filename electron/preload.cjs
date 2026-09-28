@@ -7,7 +7,13 @@ contextBridge.exposeInMainWorld('api', {
         connect: (connectionData) => ipcRenderer.invoke('obs:connect', connectionData),
         getScenes: () => ipcRenderer.invoke('obs:getScenes'),
         getInputs: () => ipcRenderer.invoke('obs:getInputs'),
-        disconnect: () => ipcRenderer.invoke('obs:disconnect')
+        disconnect: () => ipcRenderer.invoke('obs:disconnect'),
+        onConnectionLost: (callback) => {
+            const channel = 'obs:connectionLost';
+            const wrapper = (_event, data) => callback(data);
+            ipcRenderer.on(channel, wrapper);
+            return () => ipcRenderer.removeListener(channel, wrapper);
+        }
     },
     settings: {
         load: () => ipcRenderer.invoke('settings:load'),

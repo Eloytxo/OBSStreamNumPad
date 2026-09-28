@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import './ipc/obs.js';
 import './ipc/settings.js';
 import { initKeyboardIPC } from './ipc/keyboard.js';
+import OBSService from './services/OBSService.js';
+import KeyboardService from './services/KeyboardService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +30,23 @@ function createWindow() {
 
     // Inicializar IPC de teclado con la ventana principal
     initKeyboardIPC(mainWindow);
+
+    // Notify renderer and stop keyboard when OBS connection is lost unexpectedly
+    OBSService.on('connectionLost', ({ reason }) => {
+
+        console.log('[Main] OBS connection lost unexpectedly:', reason);
+
+        try {
+            KeyboardService.stop();
+        } catch (error) {
+            console.error('[Main] Error stopping keyboard on connection loss:', error);
+        }
+
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('obs:connectionLost', { reason });
+        }
+
+    });
 
     if (isDev) {
 
