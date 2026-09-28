@@ -23,6 +23,7 @@
     "minimize": "Minimizar",
     "maximize": "Maximizar",
     "close": "Cerrar",
+    "settings": "Configuración",
     "disconnect_title": "Desconectar de OBS",
     "disconnect_confirm": "¿Estás seguro de que quieres desconectarte de OBS? Esto detendrá el teclado y reiniciará todos los mappings.",
     "disconnect": "Desconectar",
@@ -54,5 +55,23 @@
     "key_label": "Tecla",
     "no_mapping": "Sin asignar",
     "assign_key": "Asignar tecla"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Language / Idioma",
+    "language": {
+      "es": "Español",
+      "en": "Inglés"
+    },
+    "clearMappings": {
+      "title": "Limpiar mappings",
+      "description": "Esto eliminará todos los mappings configurados. Esta acción no se puede deshacer.",
+      "button": "Limpiar todos los mappings",
+      "confirmTitle": "¿Limpiar todos los mappings?",
+      "confirmMessage": "¿Estás seguro de que querés eliminar todos los mappings?",
+      "confirmButton": "Limpiar mappings",
+      "cancelButton": "Cancelar"
+    },
+    "back": "Volver"
   }
 }

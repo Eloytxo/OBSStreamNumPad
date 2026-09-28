@@ -23,6 +23,7 @@
     "minimize": "Minimize",
     "maximize": "Maximize",
     "close": "Close",
+    "settings": "Settings",
     "disconnect_title": "Disconnect from OBS",
     "disconnect_confirm": "Are you sure you want to disconnect from OBS? This will stop the keyboard listener and reset all mappings.",
     "disconnect": "Disconnect",
@@ -49,10 +50,22 @@
     "delete": "Delete",
     "back": "Back"
   },
-  "summary": {
-    "title": "Assignments summary",
-    "key_label": "Key",
-    "no_mapping": "Not assigned",
-    "assign_key": "Assign key"
+  "settings": {
+    "title": "Settings",
+    "language": "Language / Idioma",
+    "language": {
+      "es": "Spanish",
+      "en": "English"
+    },
+    "clearMappings": {
+      "title": "Clear mappings",
+      "description": "This will remove all configured key mappings. This action cannot be undone.",
+      "button": "Clear all mappings",
+      "confirmTitle": "Clear all mappings?",
+      "confirmMessage": "Are you sure you want to remove all mappings?",
+      "confirmButton": "Clear mappings",
+      "cancelButton": "Cancel"
+    },
+    "back": "Back"
   }
 }
