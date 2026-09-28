@@ -8,8 +8,8 @@ import { normalizeAccelerator } from '../../core/keyboard.js';
 let dispatcher = null;
 
 /**
- * Inicializa el ActionDispatcher con la ventana principal.
- * Debe llamarse después de que mainWindow esté creada.
+ * Initializes the ActionDispatcher with the main window.
+ * Must be called after mainWindow is created.
  *
  * @param {import('electron').BrowserWindow} mainWindow
  */
@@ -32,7 +32,7 @@ ipcMain.handle('keyboard:start', async () => {
 
     const result = KeyboardService.start(({ key, state }) => {
 
-        // Solo procesar teclas del numpad
+        // Only process numpad keys
         const normalizedKey = normalizeAccelerator(key);
 
         if (!normalizedKey) {

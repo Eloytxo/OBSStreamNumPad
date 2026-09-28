@@ -18,7 +18,7 @@ export const useSettingsStore = defineStore('settings', () => {
         locale.value = data.locale;
         mappings.value = data.mappings;
 
-        // Sincronizar con connectionStore para que aparezcan prellenados
+        // Sync with connectionStore so the connection form is prefilled
         const connectionStore = useConnectionStore();
         connectionStore.host = data.host;
         connectionStore.port = data.port;

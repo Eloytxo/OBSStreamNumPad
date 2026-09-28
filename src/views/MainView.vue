@@ -19,7 +19,7 @@ const sortKey = ref("key");
 const sortDirection = ref("asc");
 
 async function startListening() {
-    // Pausar atajos globales para que el listener del renderer reciba la tecla
+    // Pause global shortcuts so the renderer listener can capture the key
     await window.api.keyboard.stop();
     listening.value = true;
     capturedKey.value = "";
@@ -35,14 +35,14 @@ function handleKeyDown(event) {
         capturedKey.value = code;
         listening.value = false;
         event.preventDefault();
-        // Reactivar atajos globales tras capturar la tecla
+        // Resume global shortcuts after capturing the key
         window.api.keyboard.start();
     }
 }
 
 async function stopListening() {
     listening.value = false;
-    // Reactivar atajos globales al cancelar la captura
+    // Resume global shortcuts when cancelling capture
     await window.api.keyboard.start();
 }
 
@@ -144,7 +144,7 @@ onMounted(async () => {
     await obsStore.fetchScenes();
     await obsStore.fetchInputs();
 
-    // Si viene una tecla preseleccionada desde el resumen, usarla
+    // If a key was preselected from the summary view, use it
     const preselectedKey = route.query.key;
     if (preselectedKey) {
         capturedKey.value = preselectedKey;
@@ -153,7 +153,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
     document.removeEventListener("keydown", handleKeyDown);
-    // Si se sale de la vista mientras se está capturando, reactivar atajos
+    // If leaving the view while capturing, resume shortcuts
     if (listening.value) {
         window.api.keyboard.start();
     }

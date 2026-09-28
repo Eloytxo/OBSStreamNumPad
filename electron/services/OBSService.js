@@ -9,7 +9,7 @@ class OBSService {
     }
 
     /**
-     * Conecta con OBS Studio.
+     * Connects to OBS Studio.
      *
      * @param {string} host
      * @param {number} port
@@ -109,9 +109,9 @@ class OBSService {
     }
 
     /**
-     * Cambia la escena actual en OBS.
+     * Switches the current scene in OBS.
      *
-     * @param {string} sceneName - Nombre de la escena destino
+     * @param {string} sceneName - Target scene name
      * @returns {Promise<{success:boolean,message?:string}>}
      */
     async setCurrentScene(sceneName) {
@@ -149,10 +149,10 @@ class OBSService {
     }
 
     /**
-     * Dispara una acción sobre un input de tipo media en OBS.
+     * Triggers an action on a media input in OBS.
      *
-     * @param {string} inputName - Nombre del input media
-     * @param {string} action - Acción a ejecutar (ej. "PLAY", "PAUSE", "STOP", "RESTART")
+     * @param {string} inputName - Media input name
+     * @param {string} action - Action to run (e.g. "PLAY", "PAUSE", "STOP", "RESTART")
      * @returns {Promise<{success:boolean,message?:string}>}
      */
     async triggerMediaAction(inputName, action) {
@@ -201,10 +201,10 @@ class OBSService {
     }
 
     /**
-     * Obtiene el sceneItemId de un source dentro de una escena.
+     * Gets the sceneItemId of a source inside a scene.
      *
-     * @param {string} sourceName - Nombre del source (input) en OBS
-     * @param {string} sceneName - Nombre de la escena
+     * @param {string} sourceName - Source (input) name in OBS
+     * @param {string} sceneName - Scene name
      * @returns {Promise<{success:boolean,data?:number,message?:string}>}
      */
     async getSceneItemId(sourceName, sceneName) {
@@ -244,10 +244,10 @@ class OBSService {
     }
 
     /**
-     * Obtiene el estado enabled/disabled de un scene item.
+     * Gets the enabled/disabled state of a scene item.
      *
-     * @param {number} sceneItemId - ID del item en la escena
-     * @param {string} sceneName - Nombre de la escena
+     * @param {number} sceneItemId - Scene item ID
+     * @param {string} sceneName - Scene name
      * @returns {Promise<{success:boolean,data?:boolean,message?:string}>}
      */
     async getSceneItemEnabled(sceneItemId, sceneName) {
@@ -287,11 +287,11 @@ class OBSService {
     }
 
     /**
-     * Establece el estado enabled/disabled de un scene item.
+     * Sets the enabled/disabled state of a scene item.
      *
-     * @param {number} sceneItemId - ID del item en la escena
-     * @param {string} sceneName - Nombre de la escena
-     * @param {boolean} enabled - true para mostrar, false para ocultar
+     * @param {number} sceneItemId - Scene item ID
+     * @param {string} sceneName - Scene name
+     * @param {boolean} enabled - true to show, false to hide
      * @returns {Promise<{success:boolean,message?:string}>}
      */
     async setSceneItemEnabled(sceneItemId, sceneName, enabled) {

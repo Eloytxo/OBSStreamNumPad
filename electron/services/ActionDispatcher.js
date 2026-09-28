@@ -16,18 +16,18 @@ class ActionDispatcher {
     }
 
     /**
-     * Busca el mapping para la tecla normalizada y ejecuta la acción en OBS.
-     * Envía feedback al renderer vía IPC 'action:executed'.
+     * Looks up the mapping for the normalized key and executes the action in OBS.
+     * Sends feedback to the renderer via the 'action:executed' IPC channel.
      *
-     * @param {string} normalizedKey - Tecla ya normalizada (ej. "Numpad1")
+     * @param {string} normalizedKey - Already normalized key (e.g. "Numpad1")
      * @returns {Promise<{key:string,success:boolean,error?:string}>}
      */
     async dispatch(normalizedKey) {
 
-        // Leer mappings del store en cada keypress (sin cache)
+        // Read mappings from the store on every keypress (no cache)
         const mappings = this.settingsService.get('mappings') || [];
 
-        // Primera coincidencia gana
+        // First match wins
         const mapping = mappings.find(m => m.key === normalizedKey);
 
         if (!mapping) {
@@ -63,7 +63,7 @@ class ActionDispatcher {
 
                 console.log(`[ActionDispatcher] TOGGLE_VISIBILITY para source: "${mapping.target}"`);
 
-                // Paso 1: Obtener la escena actual
+                // Step 1: Get the current scene
                 const sceneListResult = await this.obsService.getSceneList();
 
                 if (!sceneListResult.success) {
@@ -86,12 +86,12 @@ class ActionDispatcher {
 
                     } else {
 
-                        // Paso 2: Resolver sceneItemId del source en la escena actual
+                        // Step 2: Resolve the source's sceneItemId in the current scene
                         const itemIdResult = await this.obsService.getSceneItemId(mapping.target, sceneName);
 
                         if (!itemIdResult.success) {
 
-                            // Source no está en la escena actual → no-op
+                            // Source is not in the current scene → no-op
                             console.warn(`[ActionDispatcher] Source "${mapping.target}" no encontrado en la escena "${sceneName}" — no-op`);
                             result = {
                                 success: true
@@ -101,7 +101,7 @@ class ActionDispatcher {
 
                             const sceneItemId = itemIdResult.data;
 
-                            // Paso 3: Leer estado actual
+                            // Step 3: Read the current state
                             const enabledResult = await this.obsService.getSceneItemEnabled(sceneItemId, sceneName);
 
                             if (!enabledResult.success) {
@@ -115,7 +115,7 @@ class ActionDispatcher {
 
                                 const currentEnabled = enabledResult.data;
 
-                                // Paso 4: Invertir visibilidad
+                                // Step 4: Toggle visibility
                                 result = await this.obsService.setSceneItemEnabled(sceneItemId, sceneName, !currentEnabled);
 
                             }
@@ -162,7 +162,7 @@ class ActionDispatcher {
             ...(result.message && { error: result.message })
         };
 
-        // Enviar feedback al renderer
+        // Send feedback to the renderer
         if (this.mainWindow && !this.mainWindow.isDestroyed()) {
 
             this.mainWindow.webContents.send('action:executed', outcome);

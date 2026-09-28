@@ -16,9 +16,9 @@ class KeyboardService {
     }
 
     /**
-     * Inicia la captura global de teclas.
+     * Starts the global key capture.
      *
-     * @param {function} callback - Recibe { key: string, state: string }
+     * @param {function} callback - Receives { key: string, state: string }
      * @returns {{success:boolean,message?:string}}
      */
     start(callback) {
@@ -86,7 +86,7 @@ class KeyboardService {
     }
 
     /**
-     * Detiene la captura y libera recursos del SO.
+     * Stops the capture and releases OS resources.
      */
     stop() {
 
@@ -109,7 +109,7 @@ class KeyboardService {
     }
 
     /**
-     * @returns {boolean} true si los atajos están registrados
+     * @returns {boolean} true when the hotkeys are registered
      */
     isRunning() {
 

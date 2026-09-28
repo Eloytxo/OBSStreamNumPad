@@ -1,5 +1,5 @@
 /**
- * Tipos de acción soportados por el dispatcher.
+ * Action types supported by the dispatcher.
  */
 export const ActionType = {
 
