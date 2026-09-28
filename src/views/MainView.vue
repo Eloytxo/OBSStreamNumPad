@@ -4,6 +4,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useObsStore } from "../stores/obs";
 import { useSettingsStore } from "../stores/settings";
+import ConfirmDialog from "../components/ConfirmDialog.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -17,6 +18,9 @@ const selectedTarget = ref("");
 const listening = ref(false);
 const sortKey = ref("key");
 const sortDirection = ref("asc");
+const showDuplicateDialog = ref(false);
+const duplicateMessage = ref("");
+const pendingMapping = ref(null);
 
 async function startListening() {
     // Pause global shortcuts so the renderer listener can capture the key
@@ -49,17 +53,48 @@ async function stopListening() {
 async function addMapping() {
     if (!capturedKey.value || !selectedTarget.value) return;
 
-    const mapping = {
+    const newMapping = {
         key: capturedKey.value,
         actionType: actionType.value,
         target: selectedTarget.value
     };
 
-    const updatedMappings = [...settingsStore.mappings, mapping];
-    await settingsStore.savePartial({ mappings: updatedMappings });
+    const existing = settingsStore.findByKey(newMapping.key);
 
+    if (existing) {
+        duplicateMessage.value = t("main.duplicate.message", {
+            key: newMapping.key,
+            oldAction: getActionTypeLabel(existing.actionType),
+            oldTarget: existing.target,
+            newAction: getActionTypeLabel(newMapping.actionType),
+            newTarget: newMapping.target
+        });
+        pendingMapping.value = newMapping;
+        showDuplicateDialog.value = true;
+        return;
+    }
+
+    await settingsStore.addOrReplaceMapping(newMapping);
+    resetMappingForm();
+}
+
+function resetMappingForm() {
     capturedKey.value = "";
     selectedTarget.value = "";
+}
+
+function cancelDuplicateMapping() {
+    showDuplicateDialog.value = false;
+    pendingMapping.value = null;
+}
+
+async function confirmDuplicateMapping() {
+    if (!pendingMapping.value) return;
+
+    showDuplicateDialog.value = false;
+    await settingsStore.addOrReplaceMapping(pendingMapping.value);
+    pendingMapping.value = null;
+    resetMappingForm();
 }
 
 function getNumpadDigit(key) {
@@ -315,6 +350,17 @@ function getMediaInputs() {
             </button>
         </div>
     </div>
+
+    <ConfirmDialog
+        :show="showDuplicateDialog"
+        :title="t('main.duplicate.title')"
+        :message="duplicateMessage"
+        :confirm-text="t('main.duplicate.confirm')"
+        :cancel-text="t('main.duplicate.cancel')"
+        confirm-class="danger"
+        @confirm="confirmDuplicateMapping"
+        @cancel="cancelDuplicateMapping"
+    />
 </template>
 
 <style scoped>
