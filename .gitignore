@@ -17,6 +17,7 @@ openspec
 !README.md
 !README.es.md
 release/
+coverage/
 
 # Editor directories and files
 .vscode/*

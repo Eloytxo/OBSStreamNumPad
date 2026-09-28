@@ -8,6 +8,8 @@
     "dev:vite": "vite --host --strictPort",
     "dev:electron": "wait-on http://localhost:5173 && electron .",
     "build": "vite build",
+    "test": "vitest --config vitest.config.js",
+    "test:coverage": "vitest --config vitest.config.js --coverage",
     "preview": "vite preview",
     "dist": "npm run build && electron-builder --win"
   },
@@ -23,10 +25,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
+    "@vitest/coverage-v8": "^5.0.2",
     "concurrently": "^10.0.3",
     "electron": "^42.5.0",
     "electron-builder": "^26.15.3",
     "vite": "^8.1.0",
+    "vitest": "^5.0.2",
     "wait-on": "^9.0.10"
   },
   "main": "electron/main.js",
