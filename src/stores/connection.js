@@ -9,15 +9,10 @@ export const useConnectionStore = defineStore('connection', () => {
     const port = ref(4455);
     const password = ref('');
 
-    
-    const connecting = ref(false);
-
     const status = ref(CONNECTION_STATUS.IDLE);
-    const error = ref('');
 
     function disconnect() {
         status.value = CONNECTION_STATUS.IDLE;
-        error.value = '';
         useObsStore().reset();
     }
 
@@ -25,10 +20,7 @@ export const useConnectionStore = defineStore('connection', () => {
         host,
         port,
         password,
-
-        connecting,
         status,
-        error,
         disconnect
     };
 
