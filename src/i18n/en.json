@@ -13,7 +13,16 @@
     "status_disconnected": "Disconnected",
     "status_connected": "Connected",
     "status_connecting": "Connecting...",
-    "error_connection": "Connection error"
+    "error_connection": "Connection error",
+    "lost": {
+      "title": "Connection lost",
+      "message": "The connection to OBS was lost.",
+      "reason": {
+        "closed": "The server closed the connection.",
+        "error": "Unexpected connection error.",
+        "exit": "OBS is shutting down."
+      }
+    }
   },
   "header": {
     "disconnected": "Disconnected",
