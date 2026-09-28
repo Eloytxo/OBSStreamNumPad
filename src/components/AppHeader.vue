@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { useSettingsStore } from '../stores/settings';
 import { useConnectionStore } from '../stores/connection';
 import { CONNECTION_STATUS } from '../constants/connectionStatus';
@@ -75,6 +77,13 @@ async function confirmDisconnect() {
                 <h2 class="header-title">{{ t('app.title') }}</h2>
             </div>
             <div class="header-top-right">
+                <button
+                    class="settings-button"
+                    :title="t('header.settings')"
+                    @click="navigateTo('/settings')"
+                >
+                    <FontAwesomeIcon :icon="faGear" />
+                </button>
                 <select
                     class="language-selector"
                     :value="locale"
@@ -212,5 +221,28 @@ async function confirmDisconnect() {
 .btn-confirm:hover {
     background: #ff6b63;
     border-color: #ff6b63;
+}
+
+.settings-button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-background);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.settings-button:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+    border-color: var(--color-primary);
 }
 </style>
