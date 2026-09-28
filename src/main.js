@@ -18,6 +18,6 @@ app.use(i18n);
 const settingsStore = useSettingsStore();
 settingsStore.loadFromElectron().then(() => {
     i18n.global.locale.value = settingsStore.locale;
-});
+}).catch(console.error);
 
 app.mount('#app');
