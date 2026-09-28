@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useObsStore } from "../stores/obs";
@@ -97,6 +97,14 @@ async function confirmDuplicateMapping() {
     resetMappingForm();
 }
 
+watch(showDuplicateDialog, async (show) => {
+    if (show) {
+        await window.api.keyboard.stop();
+    } else {
+        await window.api.keyboard.start();
+    }
+});
+
 function getNumpadDigit(key) {
     const match = key.match(/Numpad(\d)/);
     return match ? parseInt(match[1], 10) : null;
@@ -188,8 +196,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
     document.removeEventListener("keydown", handleKeyDown);
-    // If leaving the view while capturing, resume shortcuts
-    if (listening.value) {
+    // If leaving the view while capturing or with the overwrite dialog open, resume shortcuts
+    if (listening.value || showDuplicateDialog.value) {
         window.api.keyboard.start();
     }
 });
