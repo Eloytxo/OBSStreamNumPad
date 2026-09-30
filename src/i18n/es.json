@@ -69,7 +69,8 @@
     "title": "Resumen de asignaciones",
     "key_label": "Tecla",
     "no_mapping": "Sin asignar",
-    "assign_key": "Asignar tecla"
+    "assign_key": "Asignar tecla",
+    "reassign_key": "Reasignar tecla"
   },
   "sceneCollection": {
     "label": "Colección de escenas",

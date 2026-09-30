@@ -137,6 +137,9 @@ function getActionTypeLabel(actionType) {
                             </span>
                         </div>
                     </div>
+                    <button class="popup-assign-btn popup-reassign-btn" @click="assignKey">
+                        {{ t("summary.reassign_key") }}
+                    </button>
                 </div>
 
                 <div v-else class="popup-no-mapping">
@@ -352,5 +355,9 @@ function getActionTypeLabel(actionType) {
 
 .popup-assign-btn:hover {
     background: var(--color-primary-hover);
+}
+
+.popup-reassign-btn {
+    margin-top: 1.5rem;
 }
 </style>
