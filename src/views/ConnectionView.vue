@@ -37,6 +37,10 @@ async function connect() {
             password: connectionStore.password
         });
 
+        // Fetch OBS collection state and migrate legacy flat mappings once
+        await obsStore.fetchSceneCollections();
+        await settingsStore.migrateLegacyMappings(obsStore.currentSceneCollection);
+
         // Start global keyboard listener after successful connection
         await window.api.keyboard.start();
 
