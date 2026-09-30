@@ -65,10 +65,16 @@
       "cancel": "Cancel"
     }
   },
+  "summary": {
+    "title": "Mapping summary",
+    "key_label": "Key",
+    "no_mapping": "Not assigned",
+    "assign_key": "Assign key"
+  },
   "settings": {
     "title": "Settings",
     "language": "Language / Idioma",
-    "language": {
+    "languageOptions": {
       "es": "Spanish",
       "en": "English"
     },

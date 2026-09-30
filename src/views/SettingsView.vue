@@ -55,8 +55,8 @@ async function confirmClearMappings() {
                     v-model="locale"
                     @change="saveLanguage"
                 >
-                    <option value="es">{{ t("settings.language.es") }}</option>
-                    <option value="en">{{ t("settings.language.en") }}</option>
+                    <option value="es">{{ t("settings.languageOptions.es") }}</option>
+                    <option value="en">{{ t("settings.languageOptions.en") }}</option>
                 </select>
             </div>
 
