@@ -92,11 +92,11 @@
       "en": "Inglés"
     },
     "clearMappings": {
-      "title": "Limpiar mappings",
-      "description": "Esto eliminará todos los mappings configurados. Esta acción no se puede deshacer.",
-      "button": "Limpiar todos los mappings",
-      "confirmTitle": "¿Limpiar todos los mappings?",
-      "confirmMessage": "¿Estás seguro de que querés eliminar todos los mappings?",
+      "title": "Limpiar mappings de la colección actual",
+      "description": "Esto eliminará todos los mappings de la colección de escenas actual. Esta acción no se puede deshacer.",
+      "button": "Limpiar mappings de la colección actual",
+      "confirmTitle": "¿Limpiar mappings de la colección actual?",
+      "confirmMessage": "¿Estás seguro de que querés eliminar todos los mappings de la colección de escenas actual?",
       "confirmButton": "Limpiar mappings",
       "cancelButton": "Cancelar"
     },

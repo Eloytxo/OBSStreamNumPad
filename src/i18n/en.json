@@ -92,11 +92,11 @@
       "en": "English"
     },
     "clearMappings": {
-      "title": "Clear mappings",
-      "description": "This will remove all configured key mappings. This action cannot be undone.",
-      "button": "Clear all mappings",
-      "confirmTitle": "Clear all mappings?",
-      "confirmMessage": "Are you sure you want to remove all mappings?",
+      "title": "Clear current collection mappings",
+      "description": "This will remove all mappings from the current scene collection. This action cannot be undone.",
+      "button": "Clear current collection mappings",
+      "confirmTitle": "Clear current collection mappings?",
+      "confirmMessage": "Are you sure you want to remove all mappings from the current scene collection?",
       "confirmButton": "Clear mappings",
       "cancelButton": "Cancel"
     },

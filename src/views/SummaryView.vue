@@ -160,6 +160,8 @@ function getActionTypeLabel(actionType) {
     align-items: center;
     padding: 20px;
     height: 100%;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .summary-card {
@@ -169,6 +171,8 @@ function getActionTypeLabel(actionType) {
     box-shadow: var(--shadow);
     max-width: 500px;
     width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .summary-card h1 {

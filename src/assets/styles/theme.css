@@ -56,11 +56,40 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     background: var(--color-background);
     font-family: var(--font-family);
     color: var(--color-text);
-    overflow-x: hidden;
+}
+
+/* Custom scrollbars to match dark theme */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-surface);
+    border-radius: var(--radius-small);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-small);
+    border: 2px solid var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--color-surface);
 }
 
 
@@ -79,14 +108,15 @@ textarea:focus-visible,
 /* ========= App Layout ========= */
 
 .app-layout {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .app-content {
     flex: 1;
+    min-height: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -385,9 +415,11 @@ button:disabled {
     padding: var(--spacing-lg);
     background: var(--color-background);
     height: 100%;
+    min-height: 0;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    overflow: hidden;
 }
 
 .main-card {
@@ -397,7 +429,7 @@ button:disabled {
     padding: var(--spacing-xl);
     border-radius: var(--radius-medium);
     box-shadow: var(--shadow-card);
-    max-height: calc(100vh - 140px);
+    max-height: 100%;
     overflow-y: auto;
 }
 
