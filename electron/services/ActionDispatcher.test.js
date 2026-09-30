@@ -1,7 +1,17 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import ActionDispatcher from './ActionDispatcher.js';
 
-function createDispatcher(mappings = [], overrides = {}) {
+function createDispatcher(first = [], overrides = {}) {
+
+    let activeCollection = 'Default';
+    let mappings = [];
+
+    if (Array.isArray(first)) {
+        mappings = first;
+    } else if (first && typeof first === 'object') {
+        activeCollection = first.activeCollection || 'Default';
+        mappings = first.mappings || [];
+    }
 
     const obsService = {
         setCurrentScene: vi.fn(async () => ({ success: true })),
@@ -14,7 +24,11 @@ function createDispatcher(mappings = [], overrides = {}) {
     };
 
     const settingsService = {
-        get: vi.fn((key) => key === 'mappings' ? mappings : undefined),
+        get: vi.fn((key) => key === 'activeCollection' ? activeCollection : undefined),
+        getCollection: vi.fn((name) => name === activeCollection
+            ? { mappings, cachedScenes: [], cachedInputs: [] }
+            : { mappings: [], cachedScenes: [], cachedInputs: [] }
+        ),
         ...(overrides.settingsService || {}),
     };
 
@@ -354,6 +368,76 @@ describe('ActionDispatcher', () => {
         const result = await dispatcher.dispatch('Numpad1');
 
         expect(result.success).toBe(true);
+
+    });
+
+    test('resolves mappings from the OBS-active collection, ignoring any UI-selected collection', async () => {
+
+        const { dispatcher, obsService, mainWindow } = createDispatcher(
+            {
+                activeCollection: 'Gaming',
+                mappings: [
+                    { key: 'Numpad1', actionType: 'scene', target: 'GamingScene' },
+                ],
+            },
+            {
+                settingsService: {
+                    getCollection: vi.fn((name) => {
+                        if (name === 'Gaming') {
+                            return { mappings: [{ key: 'Numpad1', actionType: 'scene', target: 'GamingScene' }], cachedScenes: [], cachedInputs: [] };
+                        }
+                        if (name === 'Podcast') {
+                            return { mappings: [{ key: 'Numpad1', actionType: 'scene', target: 'PodcastScene' }], cachedScenes: [], cachedInputs: [] };
+                        }
+                        return { mappings: [], cachedScenes: [], cachedInputs: [] };
+                    }),
+                },
+            }
+        );
+
+        const result = await dispatcher.dispatch('Numpad1');
+
+        expect(obsService.setCurrentScene).toHaveBeenCalledExactlyOnceWith('GamingScene');
+        expect(result).toMatchObject({
+            key: 'Numpad1',
+            success: true,
+            actionType: 'scene',
+            target: 'GamingScene',
+        });
+        expect(mainWindow.webContents.send).toHaveBeenCalledWith('action:executed', result);
+
+    });
+
+    test('falls back to empty mappings when the active collection has no persisted entry', async () => {
+
+        const { dispatcher, obsService, mainWindow } = createDispatcher(
+            { activeCollection: 'Unknown', mappings: [] },
+            {
+                settingsService: {
+                    getCollection: vi.fn(() => ({ mappings: [], cachedScenes: [], cachedInputs: [] })),
+                },
+            }
+        );
+
+        const result = await dispatcher.dispatch('Numpad1');
+
+        expect(obsService.setCurrentScene).not.toHaveBeenCalled();
+        expect(result).toEqual({ key: 'Numpad1', success: true });
+        expect(mainWindow.webContents.send).not.toHaveBeenCalled();
+
+    });
+
+    test('falls back to empty mappings when no active collection is set', async () => {
+
+        const { dispatcher, obsService, mainWindow } = createDispatcher(
+            { activeCollection: '', mappings: [] }
+        );
+
+        const result = await dispatcher.dispatch('Numpad1');
+
+        expect(obsService.setCurrentScene).not.toHaveBeenCalled();
+        expect(result).toEqual({ key: 'Numpad1', success: true });
+        expect(mainWindow.webContents.send).not.toHaveBeenCalled();
 
     });
 

@@ -24,8 +24,12 @@ class ActionDispatcher {
      */
     async dispatch(normalizedKey) {
 
-        // Read mappings from the store on every keypress (no cache)
-        const mappings = this.settingsService.get('mappings') || [];
+        // Read mappings for the OBS-active collection on every keypress (no cache)
+        const activeCollection = this.settingsService.get('activeCollection');
+        const collection = activeCollection
+            ? this.settingsService.getCollection(activeCollection)
+            : null;
+        const mappings = collection?.mappings || [];
 
         const matches = mappings.filter(m => m.key === normalizedKey);
 
