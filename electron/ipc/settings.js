@@ -9,3 +9,7 @@ ipcMain.handle('settings:save', async (_event, data) => {
     settingsService.savePartial(data);
     return { success: true };
 });
+
+ipcMain.handle('settings:migrateLegacyMappings', async (_event, activeCollectionName) => {
+    return settingsService.migrateLegacyMappings(activeCollectionName);
+});

@@ -6,6 +6,7 @@ import './ipc/settings.js';
 import { initKeyboardIPC } from './ipc/keyboard.js';
 import OBSService from './services/OBSService.js';
 import KeyboardService from './services/KeyboardService.js';
+import settingsService from './services/SettingsService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,6 +45,19 @@ function createWindow() {
 
         if (mainWindow && !mainWindow.isDestroyed()) {
             mainWindow.webContents.send('obs:connectionLost', { reason });
+        }
+
+    });
+
+    // Forward scene collection changes to the renderer and persist the active collection
+    OBSService.on('sceneCollectionChanged', ({ sceneCollectionName }) => {
+
+        console.log('[Main] OBS active scene collection changed:', sceneCollectionName);
+
+        settingsService.savePartial({ activeCollection: sceneCollectionName });
+
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('obs:sceneCollectionChanged', { sceneCollectionName });
         }
 
     });

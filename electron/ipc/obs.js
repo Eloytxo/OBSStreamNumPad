@@ -38,3 +38,15 @@ ipcMain.handle('obs:disconnect', async () => {
     }
 
 });
+
+ipcMain.handle('obs:getSceneCollectionList', async () => {
+
+    return await OBSService.getSceneCollectionList();
+
+});
+
+ipcMain.handle('obs:getCurrentSceneCollection', async () => {
+
+    return await OBSService.getCurrentSceneCollection();
+
+});

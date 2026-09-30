@@ -14,6 +14,9 @@ class OBSService extends EventEmitter {
         this.obs.on('ConnectionClosed', (error) => this._handleUnexpectedClose('closed', error));
         this.obs.on('ConnectionError', (error) => this._handleUnexpectedClose('error', error));
         this.obs.on('ExitStarted', () => this._handleUnexpectedClose('exit'));
+        this.obs.on('CurrentSceneCollectionChanged', (data) => {
+            this.emit('sceneCollectionChanged', { sceneCollectionName: data.sceneCollectionName });
+        });
     }
 
     /**
@@ -131,6 +134,65 @@ class OBSService extends EventEmitter {
             return {
                 success: true,
                 inputs: result.inputs
+            };
+
+        } catch (error) {
+
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    async getSceneCollectionList() {
+
+        if (!this.connected) {
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+        }
+
+        try {
+
+            const result = await this.obs.call('GetSceneCollectionList');
+
+            return {
+                success: true,
+                currentSceneCollectionName: result.currentSceneCollectionName,
+                sceneCollections: result.sceneCollections
+            };
+
+        } catch (error) {
+
+            return {
+                success: false,
+                message: error.message
+            };
+
+        }
+
+    }
+
+    async getCurrentSceneCollection() {
+
+        if (!this.connected) {
+            return {
+                success: false,
+                message: 'OBS not connected'
+            };
+        }
+
+        try {
+
+            const result = await this.obs.call('GetCurrentSceneCollection');
+
+            return {
+                success: true,
+                sceneCollectionName: result.sceneCollectionName
             };
 
         } catch (error) {
