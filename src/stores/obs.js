@@ -54,12 +54,28 @@ export const useObsStore = defineStore('obs', () => {
         return { success: true, inputs: inputs.value };
     }
 
+    function syncActiveCollection(name) {
+        if (!name) return;
+
+        if (settingsStore.activeCollection !== name) {
+            settingsStore.activeCollection = name;
+            settingsStore.savePartial({ activeCollection: name }).catch((error) => {
+                console.error('[obsStore] Failed to persist active collection:', error);
+            });
+        }
+
+        if (settingsStore.currentCollection !== name) {
+            settingsStore.currentCollection = name;
+        }
+    }
+
     async function fetchSceneCollections() {
         const result = await window.api.obs.getSceneCollectionList();
 
         if (result.success) {
             sceneCollections.value = result.sceneCollections || [];
             currentSceneCollection.value = result.currentSceneCollectionName || '';
+            syncActiveCollection(currentSceneCollection.value);
         } else {
             sceneCollections.value = [];
             currentSceneCollection.value = '';
@@ -73,6 +89,7 @@ export const useObsStore = defineStore('obs', () => {
 
         if (result.success) {
             currentSceneCollection.value = result.sceneCollectionName || '';
+            syncActiveCollection(currentSceneCollection.value);
         }
 
         return result;
@@ -98,6 +115,18 @@ export const useObsStore = defineStore('obs', () => {
     if (typeof window !== 'undefined' && window.api?.obs?.onSceneCollectionChanged) {
         window.api.obs.onSceneCollectionChanged(({ sceneCollectionName }) => {
             currentSceneCollection.value = sceneCollectionName;
+            settingsStore.currentCollection = sceneCollectionName;
+            settingsStore.activeCollection = sceneCollectionName;
+            fetchSceneCollections();
+            fetchCurrentSceneCollection();
+        });
+    }
+
+    // Refresh the collection list when collections are renamed, added or removed
+    if (typeof window !== 'undefined' && window.api?.obs?.onSceneCollectionListChanged) {
+        window.api.obs.onSceneCollectionListChanged(() => {
+            fetchSceneCollections();
+            fetchCurrentSceneCollection();
         });
     }
 

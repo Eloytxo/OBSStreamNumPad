@@ -21,6 +21,12 @@ contextBridge.exposeInMainWorld('api', {
             const wrapper = (_event, data) => callback(data);
             ipcRenderer.on(channel, wrapper);
             return () => ipcRenderer.removeListener(channel, wrapper);
+        },
+        onSceneCollectionListChanged: (callback) => {
+            const channel = 'obs:sceneCollectionListChanged';
+            const wrapper = (_event, data) => callback(data);
+            ipcRenderer.on(channel, wrapper);
+            return () => ipcRenderer.removeListener(channel, wrapper);
         }
     },
     settings: {

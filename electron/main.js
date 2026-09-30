@@ -62,6 +62,17 @@ function createWindow() {
 
     });
 
+    // Forward scene collection list changes to the renderer so local-only collections update
+    OBSService.on('sceneCollectionListChanged', () => {
+
+        console.log('[Main] OBS scene collection list changed');
+
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('obs:sceneCollectionListChanged');
+        }
+
+    });
+
     if (isDev) {
 
         mainWindow.loadURL('http://localhost:5173');

@@ -17,6 +17,9 @@ class OBSService extends EventEmitter {
         this.obs.on('CurrentSceneCollectionChanged', (data) => {
             this.emit('sceneCollectionChanged', { sceneCollectionName: data.sceneCollectionName });
         });
+        this.obs.on('SceneCollectionListChanged', () => {
+            this.emit('sceneCollectionListChanged', {});
+        });
     }
 
     /**

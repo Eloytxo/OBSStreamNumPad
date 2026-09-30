@@ -14,6 +14,7 @@ declare global {
                 getSceneCollectionList(): Promise<{ success: boolean; currentSceneCollectionName?: string; sceneCollections?: string[]; message?: string }>;
                 getCurrentSceneCollection(): Promise<{ success: boolean; sceneCollectionName?: string; message?: string }>;
                 onSceneCollectionChanged(cb: (data: { sceneCollectionName: string }) => void): () => void;
+                onSceneCollectionListChanged(cb: () => void): () => void;
             };
 
             settings: {
