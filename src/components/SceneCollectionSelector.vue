@@ -152,14 +152,14 @@ function confirmDelete() {
 }
 
 .selector-label {
-    font-size: var(--font-size-body);
+    font-size: 0.85rem;
     color: var(--color-text-secondary);
     white-space: nowrap;
 }
 
 .selector-control {
-    min-width: 140px;
-    max-width: 220px;
+    min-width: 120px;
+    max-width: 180px;
     padding: 0.25rem 0.5rem;
     background: var(--color-background);
     color: var(--color-text);
@@ -182,7 +182,7 @@ function confirmDelete() {
     align-items: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.35rem 0.5rem;
+    padding: 0.25rem 0.5rem;
     background: rgba(251, 191, 36, 0.15);
     border: 1px solid rgba(251, 191, 36, 0.4);
     border-radius: var(--radius-small);

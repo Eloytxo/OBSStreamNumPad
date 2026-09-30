@@ -115,7 +115,7 @@ async function confirmDisconnect() {
         </div>
 
         <div class="header-bottom" v-if="isConnected()">
-            <div class="header-section">
+            <div class="header-section header-section--selector">
                 <SceneCollectionSelector
                     :collections="obsStore.sceneCollections"
                     :local-only-collections="localOnlyCollections"
