@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { useSettingsStore } from '../stores/settings';
 import { useConnectionStore } from '../stores/connection';
+import { useObsStore } from '../stores/obs';
+import SceneCollectionSelector from './SceneCollectionSelector.vue';
 import { CONNECTION_STATUS } from '../constants/connectionStatus';
 import ConfirmDialog from './ConfirmDialog.vue';
 import logo from '../assets/images/logo.png';
@@ -14,8 +16,19 @@ const { t, locale } = useI18n();
 const router = useRouter();
 const settingsStore = useSettingsStore();
 const connectionStore = useConnectionStore();
+const obsStore = useObsStore();
 
 const showDisconnectDialog = ref(false);
+
+const localOnlyCollections = computed(() => {
+    return Object.keys(settingsStore.collections).filter(
+        (name) => !obsStore.sceneCollections.includes(name)
+    );
+});
+
+function handleDeleteLocalCollection(name) {
+    settingsStore.deleteCollection(name);
+}
 
 function changeLanguage(lang) {
     locale.value = lang;
@@ -102,6 +115,16 @@ async function confirmDisconnect() {
         </div>
 
         <div class="header-bottom" v-if="isConnected()">
+            <div class="header-section">
+                <SceneCollectionSelector
+                    :collections="obsStore.sceneCollections"
+                    :local-only-collections="localOnlyCollections"
+                    :active-collection="obsStore.currentSceneCollection"
+                    v-model="settingsStore.currentCollection"
+                    @delete-local-collection="handleDeleteLocalCollection"
+                />
+            </div>
+
             <div class="header-section">
                 <button class="nav-button" @click="navigateTo('/summary')">
                     {{ t('header.summary') }}
