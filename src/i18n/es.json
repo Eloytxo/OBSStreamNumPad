@@ -71,6 +71,18 @@
     "no_mapping": "Sin asignar",
     "assign_key": "Asignar tecla"
   },
+  "sceneCollection": {
+    "label": "Colección de escenas",
+    "active": "Activa",
+    "localOnly": "Esta colección no está en OBS.",
+    "delete": "Eliminar datos de la colección",
+    "deleteTitle": "¿Eliminar datos de la colección?",
+    "deleteMessage": "¿Estás seguro de que querés eliminar todos los mappings y targets guardados de \"{name}\"? Esta acción no se puede deshacer.",
+    "deleteConfirm": "Eliminar",
+    "deleteCancel": "Cancelar",
+    "tooltipActive": "Colección activa en OBS",
+    "tooltipLocalOnly": "Colección solo local"
+  },
   "settings": {
     "title": "Configuración",
     "language": "Language / Idioma",

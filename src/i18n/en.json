@@ -71,6 +71,18 @@
     "no_mapping": "Not assigned",
     "assign_key": "Assign key"
   },
+  "sceneCollection": {
+    "label": "Scene collection",
+    "active": "Active",
+    "localOnly": "This collection is not in OBS.",
+    "delete": "Delete collection data",
+    "deleteTitle": "Delete collection data?",
+    "deleteMessage": "Are you sure you want to delete all mappings and cached targets for \"{name}\"? This cannot be undone.",
+    "deleteConfirm": "Delete",
+    "deleteCancel": "Cancel",
+    "tooltipActive": "Currently active in OBS",
+    "tooltipLocalOnly": "Local-only collection"
+  },
   "settings": {
     "title": "Settings",
     "language": "Language / Idioma",
