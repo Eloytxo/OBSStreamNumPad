@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useSettingsStore } from './settings';
 
 export const useObsStore = defineStore('obs', () => {
+
+    const settingsStore = useSettingsStore();
 
     const scenes = ref([]);
     const inputs = ref([]);
@@ -10,19 +13,45 @@ export const useObsStore = defineStore('obs', () => {
     const currentSceneCollection = ref('');
 
     async function fetchScenes() {
-        const result = await window.api.obs.getScenes();
-        if (result.success) {
-            scenes.value = result.scenes;
+        const isLive = isConnected.value &&
+            settingsStore.currentCollection &&
+            settingsStore.currentCollection === currentSceneCollection.value;
+
+        if (isLive) {
+            const result = await window.api.obs.getScenes();
+
+            if (result.success) {
+                scenes.value = result.scenes;
+                settingsStore.cachedScenes = result.scenes;
+                await settingsStore.saveCollection(settingsStore.currentCollection);
+            }
+
+            return result;
         }
-        return result;
+
+        scenes.value = settingsStore.cachedScenes;
+        return { success: true, scenes: scenes.value };
     }
 
     async function fetchInputs() {
-        const result = await window.api.obs.getInputs();
-        if (result.success) {
-            inputs.value = result.inputs;
+        const isLive = isConnected.value &&
+            settingsStore.currentCollection &&
+            settingsStore.currentCollection === currentSceneCollection.value;
+
+        if (isLive) {
+            const result = await window.api.obs.getInputs();
+
+            if (result.success) {
+                inputs.value = result.inputs;
+                settingsStore.cachedInputs = result.inputs;
+                await settingsStore.saveCollection(settingsStore.currentCollection);
+            }
+
+            return result;
         }
-        return result;
+
+        inputs.value = settingsStore.cachedInputs;
+        return { success: true, inputs: inputs.value };
     }
 
     async function fetchSceneCollections() {

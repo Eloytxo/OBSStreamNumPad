@@ -168,19 +168,30 @@ async function deleteMapping(sortedIndex) {
         return;
     }
 
-    const originalIndex = settingsStore.mappings.indexOf(mapping);
-
-    if (originalIndex === -1) {
-        return;
-    }
-
-    const updatedMappings = settingsStore.mappings.filter((_, i) => i !== originalIndex);
-    await settingsStore.savePartial({ mappings: updatedMappings });
+    await settingsStore.deleteMapping(mapping);
 }
 
 function goBack() {
     router.push("/summary");
 }
+
+watch(
+    () => settingsStore.currentCollection,
+    async () => {
+        await obsStore.fetchScenes();
+        await obsStore.fetchInputs();
+    }
+);
+
+watch(
+    () => obsStore.currentSceneCollection,
+    async (newCollection) => {
+        if (settingsStore.currentCollection === newCollection) {
+            await obsStore.fetchScenes();
+            await obsStore.fetchInputs();
+        }
+    }
+);
 
 onMounted(async () => {
     document.addEventListener("keydown", handleKeyDown);
